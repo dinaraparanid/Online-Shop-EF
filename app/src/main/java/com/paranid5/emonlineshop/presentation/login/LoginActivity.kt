@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.viewModelScope
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.ActivityLoginBinding
 import com.paranid5.emonlineshop.presentation.main.MainActivity
@@ -14,7 +15,10 @@ import com.paranid5.emonlineshop.presentation.ui.getColorCompat
 import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import com.paranid5.emonlineshop.presentation.utils.applyInsets
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -29,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        supportActionBar?.hide()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = viewModel
@@ -56,7 +61,13 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.signInButton.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            androidViewModel.viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    androidViewModel.storeUser()
+                }
+
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            }
         }
     }
 
