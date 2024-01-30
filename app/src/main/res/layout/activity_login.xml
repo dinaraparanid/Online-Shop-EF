@@ -1,138 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-                name="view_model"
-                type="com.paranid5.emonlineshop.presentation.login.LoginViewModel" />
+            name="view_model"
+            type="com.paranid5.emonlineshop.presentation.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/login_activity_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/login_activity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/sf_pro_display_regular"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="15dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/sf_pro_display_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp" />
 
         <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+            android:id="@+id/linearLayout"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-            <com.google.android.material.textfield.TextInputLayout
+                app:hintEnabled="false"
+                app:boxStrokeColor="@color/color_textinput"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@color/light_gray"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:endIconMode="clear_text"
+                app:endIconDrawable="@drawable/cross"
+                app:cursorColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_input"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@color/grey"
+                    android:layout_height="match_parent"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:hint="@string/name"
-                    app:boxBackgroundColor="@color/light_gray"
-                    app:boxStrokeWidth="0dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopStart="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="11dp"
-                        android:paddingBottom="11dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/sf_pro_display_regular"
-                        android:drawableEnd="@drawable/cross" />
+                    android:textColorHint="@{view_model.textHintColor}"
+                    android:fontFamily="@font/sf_pro_display_regular" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/family_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="false"
+                app:boxStrokeColor="@color/color_textinput"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="@color/light_gray"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:endIconMode="clear_text"
+                app:endIconDrawable="@drawable/cross"
+                app:cursorColor="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/family_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textColorHint="@color/grey"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:hint="@string/second_name"
-                    app:boxBackgroundColor="@color/light_gray"
-                    app:boxStrokeWidth="0dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopStart="8dp">
+                    android:textColorHint="@{view_model.familyHintColor}"
+                    android:fontFamily="@font/sf_pro_display_regular"
+                    style="@style/EFEditText"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/family_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="11dp"
-                        android:paddingBottom="11dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/sf_pro_display_regular"
-                        android:drawableEnd="@drawable/cross" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="false"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/color_textinput"
+                app:boxBackgroundColor="@color/light_gray"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:endIconMode="clear_text"
+                app:endIconDrawable="@drawable/cross"
+                app:cursorColor="@color/black">
+
+                <com.vicmikhailau.maskededittext.MaskedEditText
+                    android:id="@+id/phone_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:hintEnabled="false"
-                    app:boxBackgroundColor="@color/light_gray"
-                    app:boxStrokeWidth="0dp"
-                    app:boxCornerRadiusBottomEnd="8dp"
-                    app:boxCornerRadiusTopEnd="8dp"
-                    app:boxCornerRadiusBottomStart="8dp"
-                    app:boxCornerRadiusTopStart="8dp">
-                <com.vicmikhailau.maskededittext.MaskedEditText
-                        android:id="@+id/phone_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="11dp"
-                        android:paddingBottom="11dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/sf_pro_display_regular"
-                        android:drawableEnd="@drawable/cross"
-                        android:gravity="center_vertical"
-                        android:textColorHint="@color/grey"
-                        android:hint="@string/phone_number"
-                        android:inputType="number"
-                        app:mask="+7 ### ### ## ##" />
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/sf_pro_display_regular"
+                    android:gravity="center_vertical"
+                    android:textColorHint="@{view_model.phoneHintColor}"
+                    android:hint="@{view_model.phoneInputHint}"
+                    android:inputType="number"
+                    app:mask="+7 ### ### ## ##"
+                    style="@style/EFEditText"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                    android:id="@+id/sign_in_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/sign_in"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/sf_pro_display_regular"
-                    android:enabled="@{view_model.hasInputError}"
-                    app:backgroundTint="@color/pink"
-                    app:cornerRadius="8dp"
-                    style="@style/EFMaterialButtonStyle"/>
+                android:id="@+id/sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:padding="18dp"
+                android:text="@string/sign_in"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:fontFamily="@font/sf_pro_display_regular"
+                android:enabled="@{!view_model.hasInputError}"
+                app:cornerRadius="8dp"
+                app:rippleColor="@color/light_pink"
+                style="@style/EFMaterialButtonStyle"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="@string/sign_in_text1"
+            android:textColor="@color/grey"
+            android:textSize="10sp"
+            android:fontFamily="@font/sf_pro_display_regular"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="11dp"
+            android:text="@string/sign_in_text2"
+            android:textColor="@color/grey"
+            android:textSize="10sp"
+            android:fontFamily="@font/sf_pro_display_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

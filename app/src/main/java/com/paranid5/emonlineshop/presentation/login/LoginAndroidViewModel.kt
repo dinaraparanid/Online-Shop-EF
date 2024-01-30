@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-private val RUSSIAN_REGEX = Regex("[а-яА-Я]")
+private val RUSSIAN_REGEX = Regex("[а-яА-Я]+")
 private val PHONE_REGEX = Regex("\\+7 \\d{3} \\d{3} \\d{2} \\d{2}")
 
 @HiltViewModel
@@ -21,11 +21,15 @@ class LoginAndroidViewModel @Inject constructor() : ViewModel() {
     }
 
     private val _hasNameErrorState by lazy {
-        MutableStateFlow(false)
+        MutableStateFlow(true)
     }
 
     val nameInputState by lazy {
         _nameInputState.asStateFlow()
+    }
+
+    val hasNameErrorState by lazy {
+        _hasNameErrorState.asStateFlow()
     }
 
     fun setNameInput(name: String): Boolean {
@@ -44,11 +48,15 @@ class LoginAndroidViewModel @Inject constructor() : ViewModel() {
     }
 
     private val _hasFamilyErrorState by lazy {
-        MutableStateFlow(false)
+        MutableStateFlow(true)
     }
 
     val familyInputState by lazy {
         _familyInputState.asStateFlow()
+    }
+
+    val hasFamilyErrorState by lazy {
+        _hasFamilyErrorState.asStateFlow()
     }
 
     fun setFamilyInput(family: String): Boolean {
@@ -67,11 +75,15 @@ class LoginAndroidViewModel @Inject constructor() : ViewModel() {
     }
 
     private val _hasPhoneErrorState by lazy {
-        MutableStateFlow(false)
+        MutableStateFlow(true)
     }
 
     val phoneInputState by lazy {
         _phoneInputState.asStateFlow()
+    }
+
+    val hasPhoneErrorState by lazy {
+        _hasPhoneErrorState.asStateFlow()
     }
 
     fun setPhoneInput(phone: String): Boolean {
@@ -91,12 +103,12 @@ class LoginAndroidViewModel @Inject constructor() : ViewModel() {
             _hasFamilyErrorState,
             _hasPhoneErrorState
         ) { name, family, phone ->
-            name && family && phone
+            name || family || phone
         }
     }
 
     val hasInputErrorState by lazy {
-        hasInputErrorFlow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+        hasInputErrorFlow.stateIn(viewModelScope, SharingStarted.Eagerly, true)
     }
 }
 
@@ -111,6 +123,15 @@ inline val LoginAndroidViewModel.phoneInput
 
 inline val LoginAndroidViewModel.hasInputError
     get() = hasInputErrorState.value
+
+inline val LoginAndroidViewModel.hasNameError
+    get() = hasNameErrorState.value
+
+inline val LoginAndroidViewModel.hasFamilyError
+    get() = hasFamilyErrorState.value
+
+inline val LoginAndroidViewModel.hasPhoneError
+    get() = hasPhoneErrorState.value
 
 private fun correctNameInput(input: String) =
     input matches RUSSIAN_REGEX

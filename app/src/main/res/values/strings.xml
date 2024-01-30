@@ -5,4 +5,7 @@
     <string name="phone_number">Номер телефона</string>
     <string name="login">Вход</string>
     <string name="sign_in">Войти</string>
+    <string name="phone_hint">+7 ### ### ## ##</string>
+    <string name="sign_in_text1">Нажимая кнопку “Войти”, Вы принимаете</string>
+    <string name="sign_in_text2"><u>условия программы лояльности</u></string>
 </resources>
