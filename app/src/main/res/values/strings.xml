@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">EMOnlineShop</string>
+    <string name="name">Имя</string>
+    <string name="second_name">Фамилия</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="login">Вход</string>
+    <string name="sign_in">Войти</string>
+</resources>
