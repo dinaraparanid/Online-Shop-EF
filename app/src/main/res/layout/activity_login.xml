@@ -51,6 +51,7 @@
                 app:boxCornerRadiusTopStart="8dp"
                 app:endIconMode="clear_text"
                 app:endIconDrawable="@drawable/cross"
+                app:endIconTint="@color/black"
                 app:cursorColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -84,6 +85,7 @@
                 app:boxCornerRadiusTopStart="8dp"
                 app:endIconMode="clear_text"
                 app:endIconDrawable="@drawable/cross"
+                app:endIconTint="@color/black"
                 app:cursorColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -118,6 +120,7 @@
                 app:boxCornerRadiusTopStart="8dp"
                 app:endIconMode="clear_text"
                 app:endIconDrawable="@drawable/cross"
+                app:endIconTint="@color/black"
                 app:cursorColor="@color/black">
 
                 <com.vicmikhailau.maskededittext.MaskedEditText

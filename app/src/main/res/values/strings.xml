@@ -8,4 +8,9 @@
     <string name="phone_hint">+7 ### ### ## ##</string>
     <string name="sign_in_text1">Нажимая кнопку “Войти”, Вы принимаете</string>
     <string name="sign_in_text2"><u>условия программы лояльности</u></string>
+    <string name="main_item_title">Главная</string>
+    <string name="catalog_item_title">Каталог</string>
+    <string name="bag_item_title">Корзина</string>
+    <string name="discounts_item_title">Stocks</string>
+    <string name="profile_item_title">Профиль</string>
 </resources>

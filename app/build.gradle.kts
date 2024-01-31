@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
 
     implementation(libs.dagger.hilt)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.vicmikhailau.maskededittext)

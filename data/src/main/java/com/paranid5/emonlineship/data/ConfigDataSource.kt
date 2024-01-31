@@ -10,11 +10,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StorageHandler @Inject constructor(
+class ConfigDataSource @Inject constructor(
     @ApplicationContext context: Context
 ) : CoroutineScope by CoroutineScope(Dispatchers.IO) {
     private val Context.dataStore by preferencesDataStore("config")
     private val dataStore = context.dataStore
 
-    val userProvider by lazy { UserProvider(dataStore) }
+    val userProvider: UserProvider by lazy { UserProvider(dataStore) }
 }

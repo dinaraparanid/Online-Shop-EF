@@ -6,4 +6,6 @@
     <color name="grey">#FFA0A1A3</color>
     <color name="pink">#FFD62F89</color>
     <color name="light_pink">#FFFF8AC9</color>
+    <color name="border">#FFE8E9EC</color>
+    <color name="dark_grey">#FF3E3E3E</color>
 </resources>
