@@ -6,13 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentFavouritesBinding
+import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
+import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
+import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
+
+    private val viewModel by viewModels<FavouritesViewModel>()
+
+    private val productsAdapter by lazy {
+        ProductsAdapter().apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +42,26 @@ class FavouritesFragment : Fragment() {
             false
         )
 
+        initViews()
+        launchFavouritesMonitoring()
         return binding.root
     }
+
+    private fun initViews() =
+        binding.favouritesView.run {
+            adapter = productsAdapter
+
+            layoutManager = GridLayoutManager(requireContext(), 2).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
+
+            addItemDecoration(PaddingItemDecorator(topPadding = 7))
+        }
+
+    private fun launchFavouritesMonitoring() =
+        launchOnStarted {
+            viewModel.favouritesFlow.collectLatest {
+                productsAdapter submitList it
+            }
+        }
 }

@@ -6,12 +6,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.ItemProductBinding
 import com.paranid5.emonlineshop.domain.product.IProduct
 import com.paranid5.emonlineshop.domain.product.equalTo
 
-class ProductsAdapter() : RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>() {
+class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>() {
     private val differ by lazy {
         AsyncListDiffer(this, DiffCallback())
     }
@@ -33,13 +34,15 @@ class ProductsAdapter() : RecyclerView.Adapter<ProductsAdapter.ProductsViewHolde
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int): Unit =
         holder bind currentList[position]
 
-    infix fun submitList(products: List<IProduct>) =
+    infix fun submitList(products: List<IProduct>): Unit =
         differ.submitList(products)
 
     class ProductsViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         infix fun bind(product: IProduct) {
             binding.product = product
+            binding.productCoverPager.adapter = ProductCoversAdapter(product.coversRes)
+            TabLayoutMediator(binding.productTab, binding.productCoverPager) { _, _ -> }.attach()
             binding.executePendingBindings()
         }
     }

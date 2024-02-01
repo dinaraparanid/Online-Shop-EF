@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -56,10 +57,16 @@ class MainActivity : AppCompatActivity() {
         launchAppLabelMonitoring()
     }
 
-    private fun initViews() =
+    private fun initViews() {
+        binding.bottomNavigationView.run {
+            setOnApplyWindowInsetsListener(null)
+            setPadding(0)
+        }
+
         binding.backButton.setOnClickListener {
             moveToPreviousFragment()
         }
+    }
 
     private fun setupNavigation() {
         binding.bottomNavigationView.setOnItemSelectedListener {

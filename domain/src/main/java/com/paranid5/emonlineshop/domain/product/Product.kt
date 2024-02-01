@@ -16,5 +16,5 @@ data class Product(
     override val description: String,
     override val info: List<Info>,
     override val ingredients: String,
-    override val coversPaths: List<String> = listOf()
+    override val coversRes: List<Int> = listOf()
 ) : IProduct

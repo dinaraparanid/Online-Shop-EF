@@ -13,7 +13,7 @@ interface IProduct : Parcelable {
     val description: String
     val info: List<Info>
     val ingredients: String
-    val coversPaths: List<String>
+    val coversRes: List<Int>
 }
 
 infix fun IProduct.equalTo(other: IProduct): Boolean {
@@ -29,11 +29,20 @@ infix fun IProduct.equalTo(other: IProduct): Boolean {
     if (description != other.description) return false
     if (info != other.info) return false
     if (ingredients != other.ingredients) return false
-    return coversPaths == other.coversPaths
+    return coversRes == other.coversRes
 }
 
-inline val IProduct.ratingText
-    get() = String.format("%.1lf", feedback.rating)
+inline val IProduct.originalPriceText: String
+    get() = "${price.price} ${price.unit}"
 
-inline val IProduct.feedbackCountText
+inline val IProduct.priceWithDiscountText: String
+    get() = "${price.priceWithDiscount} ${price.unit}"
+
+inline val IProduct.discountText: String
+    get() = "-${price.discount}%"
+
+inline val IProduct.ratingText: String
+    get() = String.format("%.1f", feedback.rating)
+
+inline val IProduct.feedbackCountText: String
     get() = "(${feedback.count})"
