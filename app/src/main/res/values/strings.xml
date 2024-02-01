@@ -25,4 +25,8 @@
     <string name="product_rus_2_4">%1$d Товара</string>
     <string name="product_rus_5_0">%1$d Товаров</string>
     <string name="back">Вернуться</string>
+    <string name="product_cover">Обложка продукта</string>
+    <string name="add_to_favourite">Добавить в избранное</string>
+    <string name="rating">Рейтинг</string>
+    <style name="add_to_bag">Добавить в корзину</style>
 </resources>

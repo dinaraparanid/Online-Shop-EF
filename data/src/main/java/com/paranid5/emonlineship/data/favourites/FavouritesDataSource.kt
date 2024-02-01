@@ -5,10 +5,10 @@ import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.db.SqlDriver
 import com.paranid5.emonlineshop.data.Favourites
 import com.paranid5.emonlineshop.data.FavouritesQueries
-import com.paranid5.emonlineshop.domain.favourites.Favourite
-import com.paranid5.emonlineshop.domain.favourites.Feedback
-import com.paranid5.emonlineshop.domain.favourites.Info
-import com.paranid5.emonlineshop.domain.favourites.Price
+import com.paranid5.emonlineshop.domain.product.FavouriteProduct
+import com.paranid5.emonlineshop.domain.product.Feedback
+import com.paranid5.emonlineshop.domain.product.Info
+import com.paranid5.emonlineshop.domain.product.Price
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,39 +37,39 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
             .mapToList(Dispatchers.IO)
             .mapLatest { favourites ->
                 favourites
-                    .groupBy(Favourite::id)
+                    .groupBy(FavouriteProduct::id)
                     .mapNotNull { (_, same) ->
                         same.firstOrNull()?.copy(
-                            tags = same.flatMap(Favourite::tags),
-                            info = same.flatMap(Favourite::info)
+                            tags = same.flatMap(FavouriteProduct::tags),
+                            info = same.flatMap(FavouriteProduct::info)
                         )
                     }
             }
 
-    fun addFavouriteAsync(favourite: Favourite): Job =
-        launch(Dispatchers.IO) { addFavourite(favourite) }
+    fun addFavouriteAsync(favouriteProduct: FavouriteProduct): Job =
+        launch(Dispatchers.IO) { addFavourite(favouriteProduct) }
 
-    private fun addFavourite(favourite: Favourite) = queries.transaction {
-        val priceId = queries.insertPriceIfNotExists(favourite.price)
-        val feedbackId = queries.insertFeedbackIfNotExists(favourite.feedback)
-        val infoIds = queries.insertInfo(favourite.info)
-        queries.insertTags(favourite.tags)
+    private fun addFavourite(favouriteProduct: FavouriteProduct) = queries.transaction {
+        val priceId = queries.insertPriceIfNotExists(favouriteProduct.price)
+        val feedbackId = queries.insertFeedbackIfNotExists(favouriteProduct.feedback)
+        val infoIds = queries.insertInfo(favouriteProduct.info)
+        queries.insertTags(favouriteProduct.tags)
 
-        queries.insertFavourite(favourite, priceId, feedbackId)
-        infoIds.forEach { queries.insertFavouriteInfo(favourite.id, it) }
-        favourite.tags.forEach { queries.insertFavouriteTag(favourite.id, it) }
+        queries.insertFavourite(favouriteProduct, priceId, feedbackId)
+        infoIds.forEach { queries.insertFavouriteInfo(favouriteProduct.id, it) }
+        favouriteProduct.tags.forEach { queries.insertFavouriteTag(favouriteProduct.id, it) }
     }
 
-    fun removeFavouriteAsync(favourite: Favourite): Job =
-        launch(Dispatchers.IO) { removeFavourite(favourite) }
+    fun removeFavouriteAsync(favouriteProduct: FavouriteProduct): Job =
+        launch(Dispatchers.IO) { removeFavourite(favouriteProduct) }
 
-    private fun removeFavourite(favourite: Favourite) =
-        queries.removeFavourite(favourite.id)
+    private fun removeFavourite(favouriteProduct: FavouriteProduct) =
+        queries.removeFavourite(favouriteProduct.id)
 }
 
 internal fun FavouritesQueries.selectAndMapToFavourite() =
     selectFavourites { id, title, subtitle, price, discount, priceWithDiscount, unit, count, rating, tag, available, description, infoTitle, infoValue, ingredients ->
-        Favourite(
+        FavouriteProduct(
             id = id,
             title = title,
             subtitle = subtitle,
@@ -121,15 +121,15 @@ internal fun FavouritesQueries.insertInfo(info: List<Info>) =
     }
 
 internal fun FavouritesQueries.insertFavourite(
-    favourite: Favourite,
+    favouriteProduct: FavouriteProduct,
     priceId: Long,
     feedbackId: Long,
 ) = insertFavourite(
-    title = favourite.title,
-    favourite.subtitle,
+    title = favouriteProduct.title,
+    favouriteProduct.subtitle,
     priceId = priceId,
     feedbackId = feedbackId,
-    available = favourite.available,
-    description = favourite.description,
-    ingredients = favourite.ingredients
+    available = favouriteProduct.available,
+    description = favouriteProduct.description,
+    ingredients = favouriteProduct.ingredients
 )

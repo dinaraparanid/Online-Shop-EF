@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.viewpager2)
 
     implementation(libs.dagger.hilt)
     implementation(libs.androidx.navigation.fragment.ktx)

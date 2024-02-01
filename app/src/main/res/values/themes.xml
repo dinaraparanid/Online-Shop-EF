@@ -14,4 +14,16 @@
         <item name="colorControlActivated">@color/pink</item>
         <item name="colorControlNormal">@color/pink</item>
     </style>
+
+    <style name="AddToBagCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/AddToBagCardView_card_custom_corners</item>
+    </style>
+
+    <style name="AddToBagCardView_card_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeBottomRight">8dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
 </resources>

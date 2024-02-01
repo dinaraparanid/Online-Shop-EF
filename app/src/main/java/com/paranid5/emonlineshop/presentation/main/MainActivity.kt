@@ -2,6 +2,7 @@ package com.paranid5.emonlineshop.presentation.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
@@ -9,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.ActivityMainBinding
@@ -29,6 +29,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel by viewModels<MainViewModel>()
+
+    private val onBackPressedCallback by lazy {
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() =
+                moveToPreviousFragment()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +58,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() =
         binding.backButton.setOnClickListener {
-            navController.popBackStack()
+            moveToPreviousFragment()
         }
 
-    private fun setupNavigation() =
+    private fun setupNavigation() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home_item -> navigateToHomeFragment()
@@ -66,38 +73,46 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    private fun moveToPreviousFragment() {
+        viewModel.removeFragment()
+        navController.popBackStack()
+    }
+
     private fun navigateToFragment(@IdRes fragmentId: Int): Boolean {
         navController.navigate(fragmentId)
         return true
     }
 
     private fun navigateToHomeFragment(): Boolean {
-        viewModel.setCurrentFragmentName<HomeFragment>()
+        viewModel.addFragment<HomeFragment>()
         return navigateToFragment(R.id.homeFragment)
     }
 
     private fun navigateToCatalogFragment(): Boolean {
-        viewModel.setCurrentFragmentName<CatalogFragment>()
+        viewModel.addFragment<CatalogFragment>()
         return navigateToFragment(R.id.catalogFragment)
     }
 
     private fun navigateToBagFragment(): Boolean {
-        viewModel.setCurrentFragmentName<BagFragment>()
+        viewModel.addFragment<BagFragment>()
         return navigateToFragment(R.id.bagFragment)
     }
 
     private fun navigateToDiscountsFragment(): Boolean {
-        viewModel.setCurrentFragmentName<DiscountsFragment>()
+        viewModel.addFragment<DiscountsFragment>()
         return navigateToFragment(R.id.discountsFragment)
     }
 
-    fun navigateToProfileFragment(): Boolean {
-        viewModel.setCurrentFragmentName<ProfileFragment>()
+    private fun navigateToProfileFragment(): Boolean {
+        viewModel.addFragment<ProfileFragment>()
         return navigateToFragment(R.id.profileFragment)
     }
 
     fun navigateToFavouritesFragment(): Boolean {
-        viewModel.setCurrentFragmentName<FavouritesFragment>()
+        viewModel.addFragment<FavouritesFragment>()
         return navigateToFragment(R.id.favouritesFragment)
     }
 

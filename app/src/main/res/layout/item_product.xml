@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="product"
+            type="com.paranid5.emonlineshop.domain.product.IProduct" />
+
+        <import type="com.paranid5.emonlineshop.domain.product.IProductKt"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/light_gray">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/product_cover_pager"
+                android:layout_width="168dp"
+                android:layout_height="144dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/product_tab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/product_cover_pager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tabIndicatorHeight="0dp"
+                app:tabBackground="@drawable/tab_pager_selector"
+                app:tabGravity="center"/>
+
+            <ImageButton
+                android:id="@+id/product_covert"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/heart"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/add_to_favourite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.paranid5.emonlineshop.presentation.ui.ObliqueStrikeTextView
+                android:id="@+id/original_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="2dp"
+                android:paddingHorizontal="2dp"
+                android:text="@{product.price.price}"
+                android:textColor="@color/grey"
+                android:textSize="10sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/product_tab" />
+
+            <TextView
+                android:id="@+id/final_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@{product.price.priceWithDiscount}"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintStart_toStartOf="@id/original_price_text"
+                app:layout_constraintTop_toBottomOf="@id/original_price_text" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/discount_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/pink"
+                app:cardCornerRadius="4dp"
+                app:strokeColor="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@+id/final_price_text"
+                app:layout_constraintStart_toEndOf="@+id/final_price_text"
+                app:layout_constraintTop_toTopOf="@id/final_price_text">
+
+                <TextView
+                    android:id="@+id/discount_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="3dp"
+                    android:paddingHorizontal="6dp"
+                    android:text="@{Long.toString(product.price.discount)}"
+                    android:textSize="9sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/sf_pro_display_medium"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/product_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@{product.title}"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintStart_toStartOf="@id/original_price_text"
+                app:layout_constraintTop_toBottomOf="@id/final_price_text" />
+
+            <TextView
+                android:id="@+id/product_description_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{product.subtitle}"
+                android:textColor="@color/dark_grey"
+                android:textSize="10sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/original_price_text"
+                app:layout_constraintTop_toBottomOf="@id/product_name_text" />
+
+            <ImageView
+                android:id="@+id/rating_image"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/star"
+                android:contentDescription="@string/rating"
+                app:layout_constraintStart_toStartOf="@+id/product_description_text"
+                app:layout_constraintTop_toBottomOf="@+id/product_description_text" />
+
+            <TextView
+                android:id="@+id/rating_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:text="@{IProductKt.getRatingText(product)}"
+                android:textColor="@color/orange"
+                android:textSize="9sp"
+                app:layout_constraintBottom_toBottomOf="@id/rating_image"
+                app:layout_constraintStart_toEndOf="@id/rating_image"
+                app:layout_constraintTop_toTopOf="@+id/rating_image" />
+
+            <TextView
+                android:id="@+id/rating_count_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:text="@{IProductKt.getFeedbackCountText(product)}"
+                android:textColor="@color/grey"
+                android:textSize="9sp"
+                app:layout_constraintBottom_toBottomOf="@id/rating_text"
+                app:layout_constraintStart_toEndOf="@id/rating_text"
+                app:layout_constraintTop_toTopOf="@+id/rating_image" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:cardBackgroundColor="@color/pink"
+                app:strokeColor="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@id/rating_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/AddToBagCardViewStyle">
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/product_plus"
+                    android:background="@color/pink"
+                    android:padding="0dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

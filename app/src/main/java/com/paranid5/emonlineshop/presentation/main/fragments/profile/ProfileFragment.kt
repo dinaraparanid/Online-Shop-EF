@@ -11,6 +11,7 @@ import com.paranid5.emonlineship.data.config.sources.user.userNameFamilyFlow
 import com.paranid5.emonlineship.data.config.sources.user.userPhoneFlow
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentProfileBinding
+import com.paranid5.emonlineshop.presentation.main.MainActivity
 import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import com.paranid5.emonlineshop.presentation.utils.productOnRussianRes
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +42,10 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initView() {
+        binding.favouritesLayout.setOnClickListener {
+            (requireActivity() as MainActivity).navigateToFavouritesFragment()
+        }
+
         binding.signOutButton.setOnClickListener {
             requireActivity().finish()
         }

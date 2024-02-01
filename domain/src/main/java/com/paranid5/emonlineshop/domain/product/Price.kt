@@ -1,4 +1,4 @@
-package com.paranid5.emonlineshop.domain.favourites
+package com.paranid5.emonlineshop.domain.product
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
