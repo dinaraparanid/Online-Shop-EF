@@ -6,6 +6,7 @@ import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.presentation.main.fragments.bag.BagFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.catalog.CatalogFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.discounts.DiscountsFragment
+import com.paranid5.emonlineshop.presentation.main.fragments.favourites.FavouritesFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.home.HomeFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.profile.ProfileFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
     private val _currentFragmentNameState by lazy {
-        MutableStateFlow("")
+        MutableStateFlow(HomeFragment::class.simpleName ?: "")
     }
 
     val currentFragmentNameState: StateFlow<String> by lazy {
@@ -44,12 +45,10 @@ inline val MainViewModel.currentAppLabelResFlow: Flow<Int>
             DiscountsFragment::class.simpleName -> R.string.discounts_item_title
             HomeFragment::class.simpleName -> R.string.home_item_title
             ProfileFragment::class.simpleName -> R.string.profile_app_label
+            FavouritesFragment::class.simpleName -> R.string.favourites
             else -> throw IllegalStateException("Unknown fragment")
         }
     }
-
-inline fun <reified F : Fragment> MainViewModel.isFragmentCurrent(): Boolean =
-    F::class.simpleName == currentFragmentName
 
 inline fun <reified F : Fragment> MainViewModel.setCurrentFragmentName(): Unit =
     setCurrentFragmentName(F::class.simpleName ?: "")

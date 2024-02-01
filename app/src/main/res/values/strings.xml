@@ -11,7 +11,7 @@
     <string name="home_item_title">Главная</string>
     <string name="catalog_item_title">Каталог</string>
     <string name="bag_item_title">Корзина</string>
-    <string name="discounts_item_title">Stocks</string>
+    <string name="discounts_item_title">Акции</string>
     <string name="profile_item_title">Профиль</string>
     <string name="sign_out">Выйти</string>
     <string name="favourites">Избранное</string>
@@ -24,4 +24,5 @@
     <string name="product_rus_1">%1$d Товар</string>
     <string name="product_rus_2_4">%1$d Товара</string>
     <string name="product_rus_5_0">%1$d Товаров</string>
+    <string name="back">Вернуться</string>
 </resources>
