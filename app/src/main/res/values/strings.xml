@@ -8,9 +8,20 @@
     <string name="phone_hint">+7 ### ### ## ##</string>
     <string name="sign_in_text1">Нажимая кнопку “Войти”, Вы принимаете</string>
     <string name="sign_in_text2"><u>условия программы лояльности</u></string>
-    <string name="main_item_title">Главная</string>
+    <string name="home_item_title">Главная</string>
     <string name="catalog_item_title">Каталог</string>
     <string name="bag_item_title">Корзина</string>
     <string name="discounts_item_title">Stocks</string>
     <string name="profile_item_title">Профиль</string>
+    <string name="sign_out">Выйти</string>
+    <string name="favourites">Избранное</string>
+    <string name="shops">Магазины</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="offer">Оферта</string>
+    <string name="refund">Возврат товара</string>
+    <string name="product">Товар</string>
+    <string name="profile_app_label">Личный кабинет</string>
+    <string name="product_rus_1">%1$d Товар</string>
+    <string name="product_rus_2_4">%1$d Товара</string>
+    <string name="product_rus_5_0">%1$d Товаров</string>
 </resources>

@@ -1,0 +1,132 @@
+CREATE TABLE IF NOT EXISTS Price (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    price TEXT NOT NULL,
+    discount INTEGER NOT NULL,
+    priceWithDiscount TEXT NOT NULL,
+    unit TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Feedback (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    count INTEGER NOT NULL,
+    rating REAL NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Tag (
+    value TEXT PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS Info (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    value TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Favourite (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    subtitle TEXT NOT NULL,
+    priceId INTEGER NOT NULL,
+    feedbackId INTEGER NOT NULL,
+    available INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    ingredients TEXT NOT NULL,
+
+    FOREIGN KEY (priceId) REFERENCES Price(id) ON DELETE CASCADE,
+    FOREIGN KEY (feedbackId) REFERENCES Feedback(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS FavouriteTag (
+    favouriteId TEXT NOT NULL,
+    tag TEXT NOT NULL,
+
+    PRIMARY KEY (favouriteId, tag),
+    FOREIGN KEY (favouriteId) REFERENCES Favourite(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag) REFERENCES Tag(value) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS FavouriteInfo (
+    favouriteId TEXT NOT NULL,
+    infoId INTEGER NOT NULL,
+
+    PRIMARY KEY (favouriteId, infoId),
+    FOREIGN KEY (favouriteId) REFERENCES Favourite(id) ON DELETE CASCADE,
+    FOREIGN KEY (infoId) REFERENCES Info(id) ON DELETE CASCADE
+);
+
+selectFavourites:
+SELECT
+    Favourite.id,
+    Favourite.title,
+    Favourite.subtitle,
+    Price.price,
+    Price.discount,
+    Price.priceWithDiscount,
+    Price.unit,
+    Feedback.count,
+    Feedback.rating,
+    Tag.value AS tag,
+    Favourite.available,
+    Favourite.description,
+    Info.title AS infoTitle,
+    Info.value AS infoValue,
+    Favourite.ingredients
+FROM
+    Favourite,
+    Price,
+    Feedback,
+    Tag,
+    FavouriteTag,
+    Info,
+    FavouriteInfo
+WHERE
+    Favourite.priceId = Price.id AND
+    Favourite.feedbackId = Feedback.id AND
+    Favourite.id = FavouriteTag.favouriteId AND
+    Favourite.id = FavouriteInfo.favouriteId AND
+    Tag.value = FavouriteTag.tag AND
+    Info.id = FavouriteInfo.infoId;
+
+insertPriceIfNotExists:
+INSERT OR IGNORE INTO Price (price, discount, priceWithDiscount, unit)
+VALUES (?, ?, ?, ?);
+
+insertedPriceId:
+SELECT last_insert_rowid()
+FROM Price;
+
+insertFeedbackIfNotExists:
+INSERT OR IGNORE INTO Feedback (count, rating)
+VALUES (?, ?);
+
+insertedFeedbackId:
+SELECT last_insert_rowid()
+FROM Feedback;
+
+insertTagIfNotExists:
+INSERT OR IGNORE INTO Tag (value)
+VALUES (?);
+
+insertInfoIfNotExists:
+INSERT OR IGNORE INTO Info (title, value)
+VALUES (?, ?);
+
+insertedInfoId:
+SELECT last_insert_rowid()
+FROM Info;
+
+insertFavourite:
+INSERT INTO Favourite (title, subtitle, priceId, feedbackId, available, description, ingredients)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertFavouriteTag:
+INSERT OR IGNORE INTO FavouriteTag (favouriteId, tag)
+VALUES (?, ?);
+
+insertFavouriteInfo:
+INSERT OR IGNORE INTO FavouriteInfo (favouriteId, infoId)
+VALUES (?, ?);
+
+removeFavourite:
+DELETE FROM Favourite
+WHERE Favourite.id = ?;

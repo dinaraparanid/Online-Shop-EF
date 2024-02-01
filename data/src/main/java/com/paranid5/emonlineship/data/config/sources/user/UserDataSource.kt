@@ -1,4 +1,4 @@
-package com.paranid5.emonlineship.data.states
+package com.paranid5.emonlineship.data.config.sources.user
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class UserProvider(private val dataStore: DataStore<Preferences>) {
+class UserDataSource(private val dataStore: DataStore<Preferences>) {
     private companion object {
         private val USER = stringPreferencesKey("user")
     }

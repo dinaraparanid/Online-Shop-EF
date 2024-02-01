@@ -1,8 +1,19 @@
 plugins {
     kotlin("kapt")
+
     id("com.android.library")
     id("kotlin-android")
+
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+    databases {
+        create("Favourites") {
+            packageName.set("com.paranid5.emonlineshop.data")
+        }
+    }
 }
 
 android {
@@ -11,7 +22,7 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
+        lint.targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,6 +57,9 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.sqldelight.android.driver)
+    implementation(libs.sqldelight.coroutines.extensions)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

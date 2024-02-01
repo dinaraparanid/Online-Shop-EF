@@ -2,9 +2,9 @@ package com.paranid5.emonlineshop.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.paranid5.emonlineship.data.ConfigDataSource
-import com.paranid5.emonlineship.data.states.user.UserPublisher
-import com.paranid5.emonlineship.data.states.user.UserPublisherImpl
+import com.paranid5.emonlineship.data.config.ConfigRepository
+import com.paranid5.emonlineship.data.config.sources.user.UserPublisher
+import com.paranid5.emonlineship.data.config.sources.user.UserPublisherImpl
 import com.paranid5.emonlineshop.domain.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +21,9 @@ private val PHONE_REGEX = Regex("\\+7 \\d{3} \\d{3} \\d{2} \\d{2}")
 
 @HiltViewModel
 class LoginAndroidViewModel @Inject constructor(
-    configDataSource: ConfigDataSource
+    configRepository: ConfigRepository
 ) : ViewModel(),
-    UserPublisher by UserPublisherImpl(configDataSource) {
+    UserPublisher by UserPublisherImpl(configRepository) {
     private val _nameInputState by lazy {
         MutableStateFlow("")
     }

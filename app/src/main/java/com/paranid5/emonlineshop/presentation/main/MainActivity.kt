@@ -12,8 +12,10 @@ import com.paranid5.emonlineshop.presentation.main.fragments.catalog.CatalogFrag
 import com.paranid5.emonlineshop.presentation.main.fragments.discounts.DiscountsFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.home.HomeFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.profile.ProfileFragment
+import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import com.paranid5.emonlineshop.presentation.utils.applyInsets
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,10 +29,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         applyInsets(R.id.main)
+
         setupInitialFragment(viewModel)
         setupNavigation()
+
+        launchAppLabelMonitoring()
     }
 
     private fun setupNavigation() =
@@ -44,4 +48,10 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+    private fun launchAppLabelMonitoring() = launchOnStarted {
+        viewModel.currentAppLabelResFlow.collectLatest {
+            binding.appLabel.text = getString(it)
+        }
+    }
 }
