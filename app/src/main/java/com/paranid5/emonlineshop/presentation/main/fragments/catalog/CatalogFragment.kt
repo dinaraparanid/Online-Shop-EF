@@ -7,16 +7,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentCatalogBinding
+import com.paranid5.emonlineshop.domain.product.FavouriteProduct
+import com.paranid5.emonlineshop.domain.product.ProductWithLike
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
 import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
+import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -27,7 +31,7 @@ class CatalogFragment : Fragment() {
     private val viewModel by viewModels<CatalogViewModel>()
 
     private val productsAdapter by lazy {
-        ProductsAdapter().apply {
+        ProductsAdapter(viewModel).apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
     }
@@ -62,9 +66,24 @@ class CatalogFragment : Fragment() {
     }
 
     private fun fetchAndSubmitProducts() =
-        lifecycleScope.launch {
-            productsAdapter submitList withContext(Dispatchers.IO) {
+        launchOnStarted {
+            launch(Dispatchers.IO) {
                 viewModel.fetchProducts()
+            }
+
+            combine(viewModel.productsState, viewModel.favouritesFlow) { network, db ->
+                withContext(Dispatchers.IO) {
+                    (network + db)
+                        .groupBy { it.id }
+                        .map { (_, products) ->
+                            products
+                                .find { it is FavouriteProduct }
+                                ?.let { ProductWithLike(it, isLiked = true) }
+                                ?: ProductWithLike(products.first(), isLiked = false)
+                        }
+                }
+            }.collectLatest {
+                productsAdapter submitList it
             }
         }
 }

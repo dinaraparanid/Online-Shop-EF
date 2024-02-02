@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentFavouritesBinding
+import com.paranid5.emonlineshop.domain.product.ProductWithLike
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
 import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
 import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.mapLatest
 
 @AndroidEntryPoint
 class FavouritesFragment : Fragment() {
@@ -25,7 +28,7 @@ class FavouritesFragment : Fragment() {
     private val viewModel by viewModels<FavouritesViewModel>()
 
     private val productsAdapter by lazy {
-        ProductsAdapter().apply {
+        ProductsAdapter(viewModel).apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
     }
@@ -58,10 +61,16 @@ class FavouritesFragment : Fragment() {
             addItemDecoration(PaddingItemDecorator(topPadding = 7))
         }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun launchFavouritesMonitoring() =
         launchOnStarted {
-            viewModel.favouritesFlow.collectLatest {
-                productsAdapter submitList it
-            }
+            viewModel
+                .favouritesFlow
+                .mapLatest { favs ->
+                    favs.map { ProductWithLike(it, isLiked = true) }
+                }
+                .collectLatest {
+                    productsAdapter submitList it
+                }
         }
 }
