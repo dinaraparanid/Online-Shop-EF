@@ -54,7 +54,7 @@
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     app:endIconMode="clear_text"
-                    app:endIconDrawable="@drawable/cross"
+                    app:endIconDrawable="@drawable/cross_icon"
                     app:endIconTint="@color/black"
                     app:cursorColor="@color/black">
 
@@ -88,7 +88,7 @@
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     app:endIconMode="clear_text"
-                    app:endIconDrawable="@drawable/cross"
+                    app:endIconDrawable="@drawable/cross_icon"
                     app:endIconTint="@color/black"
                     app:cursorColor="@color/black">
 
@@ -123,7 +123,7 @@
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     app:endIconMode="clear_text"
-                    app:endIconDrawable="@drawable/cross"
+                    app:endIconDrawable="@drawable/cross_icon"
                     app:endIconTint="@color/black"
                     app:cursorColor="@color/black">
 

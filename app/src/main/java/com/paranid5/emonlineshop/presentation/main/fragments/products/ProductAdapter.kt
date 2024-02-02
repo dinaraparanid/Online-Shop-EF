@@ -60,28 +60,13 @@ class ProductsAdapter(private val favouritesPublisher: FavouritesPublisher) :
             binding.executePendingBindings()
         }
 
-        private fun onLikeClicked(prodLike: ProductWithLike) {
-            fun onDislike() {
-                launch(Dispatchers.IO) {
-                    favouritesPublisher.removeFavourite(prodLike.product.id)
+        private fun onLikeClicked(prodLike: ProductWithLike) =
+            launch(Dispatchers.IO) {
+                when {
+                    prodLike.isLiked -> favouritesPublisher.removeFavourite(prodLike.product.id)
+                    else -> favouritesPublisher.addFavourite(prodLike.product)
                 }
-
-                setLikeImage(R.drawable.heart)
             }
-
-            fun onLike() {
-                launch(Dispatchers.IO) {
-                    favouritesPublisher.addFavourite(prodLike.product)
-                }
-
-                setLikeImage(R.drawable.heart_liked)
-            }
-
-            when {
-                prodLike.isLiked -> onDislike()
-                else -> onLike()
-            }
-        }
 
         private fun setLikeImage(isLiked: Boolean) =
             setLikeImage(if (isLiked) R.drawable.heart_liked else R.drawable.heart)

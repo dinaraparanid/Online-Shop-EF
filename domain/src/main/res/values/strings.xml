@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">domain</string>
+    <string name="show_all_tag">Смотреть все</string>
+    <string name="face_tag">Лицо</string>
+    <string name="body_tag">Тело</string>
+    <string name="suntan_tag">Загар</string>
+    <string name="mask_tag">Маска</string>
 </resources>

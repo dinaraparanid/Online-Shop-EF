@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.paranid5.emonlineshop"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -69,6 +69,8 @@ dependencies {
     implementation(libs.ktor.client.core)
 
     implementation(libs.vicmikhailau.maskededittext)
+
+    implementation(libs.powerspinner)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

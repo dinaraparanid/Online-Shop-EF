@@ -38,7 +38,7 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
             .asFlow()
             .mapToList(Dispatchers.IO)
             .mapLatest { favourites ->
-                withContext(Dispatchers.IO) {
+                withContext(Dispatchers.Default) {
                     favourites
                         .groupBy(IProduct::id)
                         .mapNotNull { (_, same) ->
@@ -98,9 +98,6 @@ internal fun FavouritesQueries.selectAndMapToFavourite() =
             coversRes = listOf(coverRes.toInt())
         )
     }
-
-private fun FavouritesQueries.test() =
-    runCatching { selectAllFavs().executeAsList() }.getOrDefault(listOf())
 
 internal fun FavouritesQueries.insertPriceIfNotExists(price: Price): Long {
     insertPriceIfNotExists(

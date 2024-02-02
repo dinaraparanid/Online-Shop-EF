@@ -33,7 +33,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/product_tab"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="8dp"
                 android:layout_marginTop="136dp"
                 android:background="@android:color/transparent"
@@ -41,6 +41,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/product_cover_pager"
                 app:tabBackground="@drawable/tab_pager_selector"
+                app:tabPaddingStart="5dp"
+                app:tabPaddingEnd="5dp"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 

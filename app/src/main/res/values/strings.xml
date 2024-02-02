@@ -28,5 +28,14 @@
     <string name="product_cover">Обложка продукта</string>
     <string name="add_to_favourite">Добавить в избранное</string>
     <string name="rating">Рейтинг</string>
-    <style name="add_to_bag">Добавить в корзину</style>
+    <string name="add_to_bag">Добавить в корзину</string>
+    <string name="sort">Сортировка</string>
+    <string name="initial_sort">По популярности</string>
+    <string name="filters">Фильтры</string>
+    <string name="cancel_tag">Отменить фильтр по тегу</string>
+    <array name="sort_by">
+        <item>По популярности</item>
+        <item>По уменьшению цены</item>
+        <item>По возрастанию цены</item>
+    </array>
 </resources>

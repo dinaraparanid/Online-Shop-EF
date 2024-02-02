@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="oblique_strike_stroke">1dp</dimen>
+    <dimen name="tags_padding">6dp</dimen>
+    <dimen name="products_padding">7dp</dimen>
 </resources>
