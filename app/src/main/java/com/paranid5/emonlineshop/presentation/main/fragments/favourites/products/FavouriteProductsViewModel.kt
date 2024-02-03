@@ -1,4 +1,4 @@
-package com.paranid5.emonlineshop.presentation.main.fragments.favourites
+package com.paranid5.emonlineshop.presentation.main.fragments.favourites.products
 
 import androidx.lifecycle.ViewModel
 import com.paranid5.emonlineship.data.favourites.FavouritesDataSource
@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FavouritesViewModel @Inject constructor(favouritesDataSource: FavouritesDataSource) :
+class FavouriteProductsViewModel @Inject constructor(favouritesDataSource: FavouritesDataSource) :
     ViewModel(),
     FavouritesSubscriber by FavouritesSubscriberImpl(favouritesDataSource),
     FavouritesPublisher by FavouritesPublisherImpl(favouritesDataSource)

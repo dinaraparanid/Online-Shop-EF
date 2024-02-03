@@ -33,6 +33,8 @@
     <string name="initial_sort">По популярности</string>
     <string name="filters">Фильтры</string>
     <string name="cancel_tag">Отменить фильтр по тегу</string>
+    <string name="products">Товары</string>
+    <string name="brands">Бренды</string>
     <array name="sort_by">
         <item>По популярности</item>
         <item>По уменьшению цены</item>

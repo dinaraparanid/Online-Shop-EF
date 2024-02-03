@@ -6,31 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentFavouritesBinding
-import com.paranid5.emonlineshop.domain.product.ProductWithLike
-import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
-import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
-import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.mapLatest
 
 @AndroidEntryPoint
 class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
 
-    private val viewModel by viewModels<FavouritesViewModel>()
-
-    private val productsAdapter by lazy {
-        ProductsAdapter(viewModel).apply {
-            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        }
+    private val fragmentsAdapter by lazy {
+        FavouritesAdapter(this)
     }
 
     override fun onCreateView(
@@ -46,31 +32,18 @@ class FavouritesFragment : Fragment() {
         )
 
         initViews()
-        launchFavouritesMonitoring()
         return binding.root
     }
 
-    private fun initViews() =
-        binding.favouritesView.run {
-            adapter = productsAdapter
+    private fun initViews() {
+        binding.fragmentsPager.adapter = fragmentsAdapter
 
-            layoutManager = GridLayoutManager(requireContext(), 2).apply {
-                orientation = LinearLayoutManager.VERTICAL
+        TabLayoutMediator(binding.fragmentsTab, binding.fragmentsPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.products)
+                1 -> getString(R.string.brands)
+                else -> throw IllegalStateException("Unknown favourite fragment position")
             }
-
-            addItemDecoration(PaddingItemDecorator(topPadding = 7))
-        }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun launchFavouritesMonitoring() =
-        launchOnStarted {
-            viewModel
-                .favouritesFlow
-                .mapLatest { favs ->
-                    favs.map { ProductWithLike(it, isLiked = true) }
-                }
-                .collectLatest {
-                    productsAdapter submitList it
-                }
-        }
+        }.attach()
+    }
 }

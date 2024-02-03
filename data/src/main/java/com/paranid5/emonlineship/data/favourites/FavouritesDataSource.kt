@@ -16,6 +16,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,6 +32,8 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
     private val queries by lazy {
         database.favouritesQueries
     }
+
+    private val mutex by lazy { Mutex() }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val favouritesFlow
@@ -52,23 +56,33 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
             }
 
     fun addFavouriteAsync(favouriteProduct: IProduct): Job =
-        launch(Dispatchers.IO) { addFavourite(favouriteProduct) }
+        launch(Dispatchers.IO) {
+            mutex.withLock { addFavourite(favouriteProduct) }
+        }
 
-    private fun addFavourite(product: IProduct) = queries.transaction {
-        val priceId = queries.insertPriceIfNotExists(product.price)
-        val feedbackId = queries.insertFeedbackIfNotExists(product.feedback)
-        val infoIds = queries.insertInfo(product.info)
-        val coversIds = queries.insertCovers(product.coversRes)
-        queries.insertTags(product.tags)
-        queries.insertFavourite(product, priceId, feedbackId)
+    private fun addFavourite(product: IProduct) = runCatching {
+        queries.transaction {
+            val priceId = queries.insertPriceIfNotExists(product.price)
+            val feedbackId = queries.insertFeedbackIfNotExists(product.feedback)
+            val infoIds = queries.insertInfo(product.info)
+            val tagsIds = queries.insertTags(product.tags)
+            val coversIds = queries.insertCovers(product.coversRes)
+            queries.insertFavourite(product, priceId, feedbackId)
 
-        infoIds.forEach { queries.insertFavouriteInfo(product.id, it) }
-        product.tags.forEach { queries.insertFavouriteTag(product.id, it) }
-        coversIds.forEach { queries.insertFavouriteCover(product.id, it) }
+            infoIds.forEach { queries.insertFavouriteInfo(product.id, it) }
+            tagsIds.forEach { queries.insertFavouriteTag(product.id, it) }
+            coversIds.forEach { queries.insertFavouriteCover(product.id, it) }
+        }
     }
 
     fun removeFavouriteAsync(productId: String): Job =
-        launch(Dispatchers.IO) { removeFavourite(productId) }
+        launch(Dispatchers.IO) {
+            mutex.withLock {
+                queries.transaction {
+                    removeFavourite(productId)
+                }
+            }
+        }
 
     private fun removeFavourite(productId: String) =
         queries.removeFavourite(productId)
@@ -107,7 +121,7 @@ internal fun FavouritesQueries.insertPriceIfNotExists(price: Price): Long {
         unit = price.unit
     )
 
-    return insertedPriceId().executeAsList().first()
+    return insertedPriceId().executeAsOne()
 }
 
 internal fun FavouritesQueries.insertFeedbackIfNotExists(feedback: Feedback): Long {
@@ -116,22 +130,25 @@ internal fun FavouritesQueries.insertFeedbackIfNotExists(feedback: Feedback): Lo
         rating = feedback.rating
     )
 
-    return insertedFeedbackId().executeAsList().first()
+    return insertedFeedbackId().executeAsOne()
 }
 
 internal fun FavouritesQueries.insertTags(tags: List<String>) =
-    tags.forEach { insertTagIfNotExists(it) }
+    tags.map {
+        insertTagIfNotExists(it)
+        insertedTagId().executeAsOne()
+    }
 
 internal fun FavouritesQueries.insertInfo(info: List<Info>) =
     info.map {
         insertInfoIfNotExists(it.title, it.value)
-        insertedInfoId().executeAsList().first()
+        insertedInfoId().executeAsOne()
     }
 
 internal fun FavouritesQueries.insertCovers(coversRes: List<Int>) =
     coversRes.map {
         insertCoverIfNotExists(it.toLong())
-        insertedCoverId().executeAsList().first()
+        insertedCoverId().executeAsOne()
     }
 
 internal fun FavouritesQueries.insertFavourite(
@@ -149,9 +166,5 @@ internal fun FavouritesQueries.insertFavourite(
     ingredients = product.ingredients
 )
 
-private fun <T> List<IProduct>.retrieveBy(transform: (IProduct) -> Iterable<T>) =
-    asSequence()
-        .flatMap(transform)
-        .distinct()
-        .toList()
-        .reversed()
+private fun <T> List<IProduct>.retrieveBy(transform: (IProduct) -> Iterable<T>): List<T> =
+    LinkedHashSet(flatMap(transform).toList()).toList()

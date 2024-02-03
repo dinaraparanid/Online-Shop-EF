@@ -9,8 +9,10 @@ import com.paranid5.emonlineship.data.favourites.FavouritesPublisherImpl
 import com.paranid5.emonlineship.data.favourites.FavouritesSubscriber
 import com.paranid5.emonlineship.data.favourites.FavouritesSubscriberImpl
 import com.paranid5.emonlineship.data.ktor.fetchProducts
+import com.paranid5.emonlineshop.domain.product.IProduct
 import com.paranid5.emonlineshop.domain.product.Product
 import com.paranid5.emonlineshop.domain.product.ProductOrder
+import com.paranid5.emonlineshop.domain.product.ProductWithLike
 import com.paranid5.emonlineshop.domain.product.sortedBy
 import com.paranid5.emonlineshop.domain.product.tag.TagWithSelect
 import com.paranid5.emonlineshop.domain.product.tag.retrieveTags
@@ -66,20 +68,29 @@ class CatalogViewModel @Inject constructor(
         }
     }
 
-    val productsFlow: Flow<List<Product>> by lazy {
+    val productsFlow: Flow<List<ProductWithLike>> by lazy {
         combine(
             _productsState,
+            favouritesFlow,
             _productOrderState,
             selectedTagsState,
             selectAllTagState
-        ) { products, order, selectedTags, selectAll ->
+        ) { products, favourites, order, selectedTags, selectAll ->
             withContext(Dispatchers.Default) {
-                when (selectAll) {
-                    in selectedTags -> products
-                    else -> products.filter { p ->
-                        selectedTags.all { it in p.tags }
-                    }
-                } sortedBy order
+                val favIds = favourites.map(IProduct::id).toHashSet()
+
+                val prods = when (selectAll) {
+                    in selectedTags -> products.asSequence()
+
+                    else -> products
+                        .asSequence()
+                        .filter { p -> selectedTags.all { it in p.tags } }
+                }
+
+                prods
+                    .map { ProductWithLike(it, isLiked = it.id in favIds) }
+                    .toList()
+                    .sortedBy(order)
             }
         }
     }

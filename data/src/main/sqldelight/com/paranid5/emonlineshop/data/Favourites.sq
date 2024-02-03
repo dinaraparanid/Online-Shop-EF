@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS Feedback (
 );
 
 CREATE TABLE IF NOT EXISTS Tag (
-    value TEXT PRIMARY KEY
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    value TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Info (
@@ -43,11 +44,11 @@ CREATE TABLE IF NOT EXISTS Favourite (
 
 CREATE TABLE IF NOT EXISTS FavouriteTag (
     favouriteId TEXT NOT NULL,
-    tag TEXT NOT NULL,
+    tagId Integer NOT NULL,
 
-    PRIMARY KEY (favouriteId, tag),
+    PRIMARY KEY (favouriteId, tagId),
     FOREIGN KEY (favouriteId) REFERENCES Favourite(id) ON DELETE CASCADE,
-    FOREIGN KEY (tag) REFERENCES Tag(value) ON DELETE CASCADE
+    FOREIGN KEY (tagId) REFERENCES Tag(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS FavouriteInfo (
@@ -102,7 +103,7 @@ WHERE
     Favourite.id = FavouriteTag.favouriteId AND
     Favourite.id = FavouriteInfo.favouriteId AND
     Favourite.id = FavouriteCover.favouriteId AND
-    Tag.value = FavouriteTag.tag AND
+    Tag.id = FavouriteTag.tagId AND
     Info.id = FavouriteInfo.infoId AND
     Cover.id = FavouriteCover.coverId;
 
@@ -112,7 +113,8 @@ VALUES (?, ?, ?, ?);
 
 insertedPriceId:
 SELECT last_insert_rowid()
-FROM Price;
+FROM Price
+LIMIT 1;
 
 insertFeedbackIfNotExists:
 INSERT INTO Feedback (count, rating)
@@ -120,11 +122,17 @@ VALUES (?, ?);
 
 insertedFeedbackId:
 SELECT last_insert_rowid()
-FROM Feedback;
+FROM Feedback
+LIMIT 1;
 
 insertTagIfNotExists:
-INSERT OR IGNORE INTO Tag (value)
+INSERT INTO Tag (value)
 VALUES (?);
+
+insertedTagId:
+SELECT last_insert_rowid()
+FROM Tag
+LIMIT 1;
 
 insertInfoIfNotExists:
 INSERT INTO Info (title, value)
@@ -132,30 +140,32 @@ VALUES (?, ?);
 
 insertedInfoId:
 SELECT last_insert_rowid()
-FROM Info;
+FROM Info
+LIMIT 1;
 
 insertCoverIfNotExists:
-INSERT OR IGNORE INTO Cover (res)
+INSERT INTO Cover (res)
 VALUES (?);
 
 insertedCoverId:
 SELECT last_insert_rowid()
-FROM Cover;
+FROM Cover
+LIMIT 1;
 
 insertFavourite:
-INSERT OR IGNORE INTO Favourite (id, title, subtitle, priceId, feedbackId, available, description, ingredients)
+INSERT INTO Favourite (id, title, subtitle, priceId, feedbackId, available, description, ingredients)
 VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 insertFavouriteTag:
-INSERT OR IGNORE INTO FavouriteTag (favouriteId, tag)
+INSERT INTO FavouriteTag (favouriteId, tagId)
 VALUES (?, ?);
 
 insertFavouriteInfo:
-INSERT OR IGNORE INTO FavouriteInfo (favouriteId, infoId)
+INSERT INTO FavouriteInfo (favouriteId, infoId)
 VALUES (?, ?);
 
 insertFavouriteCover:
-INSERT OR IGNORE INTO FavouriteCover (favouriteId, coverId)
+INSERT INTO FavouriteCover (favouriteId, coverId)
 VALUES (?, ?);
 
 removeFavourite:

@@ -6,9 +6,9 @@ enum class ProductOrder {
     PRICE_DESC
 }
 
-infix fun List<Product>.sortedBy(trackOrder: ProductOrder): List<Product> =
+infix fun List<ProductWithLike>.sortedBy(trackOrder: ProductOrder): List<ProductWithLike> =
     when (trackOrder) {
-        ProductOrder.POPULARITY -> sortedByDescending { it.feedback.rating }
-        ProductOrder.PRICE_ASC -> sortedBy { it.price.priceWithDiscount }
-        ProductOrder.PRICE_DESC -> sortedByDescending { it.price.priceWithDiscount }
+        ProductOrder.POPULARITY -> sortedByDescending { it.product.feedback.rating }
+        ProductOrder.PRICE_ASC -> sortedBy { it.product.price.priceWithDiscount }
+        ProductOrder.PRICE_DESC -> sortedByDescending { it.product.price.priceWithDiscount }
     }
