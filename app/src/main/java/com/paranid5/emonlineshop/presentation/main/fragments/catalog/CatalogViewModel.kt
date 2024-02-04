@@ -113,18 +113,8 @@ class CatalogViewModel @Inject constructor(
         _productOrderState.update { order }
 
     fun selectTag(tag: String): Unit =
-        selectedTagsState.update { tags ->
-            when (tag) {
-                selectAllTag -> listOf(tag)
-                else -> tags - selectAllTag + tag
-            }
-        }
+        selectedTagsState.update { listOf(tag) }
 
     fun unselectTag(tag: String): Unit =
-        selectedTagsState.update { tags ->
-            when (tags.size) {
-                1 -> listOf(selectAllTag)
-                else -> tags - tag
-            }
-        }
+        selectedTagsState.update { listOf(selectAllTag) }
 }

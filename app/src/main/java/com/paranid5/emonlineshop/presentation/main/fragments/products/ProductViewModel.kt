@@ -72,6 +72,9 @@ class ProductViewModel(
     val info: List<Info>
         get() = product.info
 
+    val ratingVisibility
+        get() = product.ratingVisibility
+
     private var isDescriptionShown = true
         set(value) {
             field = value

@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : ViewModel() {
     private val fragmentBackStackState by lazy {
-        MutableStateFlow(listOf(HomeFragment::class.simpleName ?: ""))
+        MutableStateFlow(listOf(CatalogFragment::class.simpleName ?: ""))
     }
 
     fun addFragment(name: String): Unit =

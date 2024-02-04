@@ -14,28 +14,19 @@
         android:paddingStart="0dp"
         android:paddingEnd="6dp"
         app:strokeColor="@android:color/transparent"
-        app:cardCornerRadius="100dp"
+        app:cardCornerRadius="15dp"
         app:cardBackgroundColor="@color/light_gray">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/sf_pro_display_medium"
-                android:text="@{tag}"
-                android:textColor="@color/grey"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:text="@{tag}"
+            android:textColor="@color/grey"
+            android:textSize="14sp" />
     </com.google.android.material.card.MaterialCardView>
 </layout>

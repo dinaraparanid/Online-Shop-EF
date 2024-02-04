@@ -29,6 +29,10 @@ class UserDataSource(private val dataStore: DataStore<Preferences>) {
             preferences[USER] = json.encodeToString(user)
         }
     }
+
+    suspend fun removeUser() {
+        dataStore.edit { it.remove(USER) }
+    }
 }
 
 private fun Json.decodeUser(userStr: String) =

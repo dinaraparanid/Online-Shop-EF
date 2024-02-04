@@ -6,9 +6,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserSubscriber {
     val userFlow: Flow<User>
+    val userOrNullFlow: Flow<User?>
 }
 
 class UserSubscriberImpl(private val configRepository: ConfigRepository) : UserSubscriber {
     override val userFlow: Flow<User>
         get() = configRepository.userFlow
+
+    override val userOrNullFlow: Flow<User?>
+        get() = configRepository.userOrNullFlow
 }

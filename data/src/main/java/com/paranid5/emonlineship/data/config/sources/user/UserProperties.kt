@@ -16,6 +16,9 @@ inline val ConfigRepository.userFlow: Flow<User>
 suspend inline fun ConfigRepository.storeUser(user: User): Unit =
     userDataSource.storeUser(user)
 
+suspend inline fun ConfigRepository.removeUser(): Unit =
+    userDataSource.removeUser()
+
 @OptIn(ExperimentalCoroutinesApi::class)
 inline val UserSubscriber.userNameFamilyFlow: Flow<String>
     get() = userFlow.mapLatest { "${it.name} ${it.family}" }

@@ -17,8 +17,11 @@ import com.paranid5.emonlineshop.presentation.utils.applyInsets
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+private val MOVE_PHONE_SELECTOR_REGEX = Regex("(\\+7 )*\\d")
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -32,6 +35,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        launchUserLoggedInMonitoring()
+
         enableEdgeToEdge()
         supportActionBar?.hide()
 
@@ -53,7 +58,15 @@ class LoginActivity : AppCompatActivity() {
         )
 
         binding.phoneInput.addTextChangedListener(
-            TextListener { viewModel.phoneInput = it }
+            TextListener(
+                onTextChanged = { viewModel.phoneInput = it },
+                afterTextChanged = {
+                    if (it matches MOVE_PHONE_SELECTOR_REGEX)
+                        binding.phoneInput.run {
+                            post { setSelection(length()) }
+                        }
+                }
+            )
         )
 
         binding.phoneInput.setOnFocusChangeListener { _: View, hasFocus: Boolean ->
@@ -65,8 +78,6 @@ class LoginActivity : AppCompatActivity() {
                 withContext(Dispatchers.IO) {
                     androidViewModel.storeUser()
                 }
-
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             }
         }
     }
@@ -87,6 +98,15 @@ class LoginActivity : AppCompatActivity() {
         launchOnStarted {
             androidViewModel.hasPhoneErrorState.collectLatest {
                 binding.phoneLayout.boxStrokeColor = getColorCompat(androidViewModel.phoneBoxColor)
+            }
+        }
+    }
+
+    private fun launchUserLoggedInMonitoring() {
+        launchOnStarted {
+            androidViewModel.userOrNullFlow.filterNotNull().collectLatest {
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
             }
         }
     }

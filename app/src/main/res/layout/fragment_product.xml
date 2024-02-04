@@ -13,7 +13,8 @@
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
 
             <ImageButton
                 android:id="@+id/backButton"
@@ -146,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:numStars="5"
+                android:visibility="@{view_model.ratingVisibility}"
                 app:rating="@{view_model.rating}"
                 app:srb_stepSize="0.1"
                 app:srb_isIndicator="false"
@@ -168,6 +170,7 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 android:fontFamily="@font/sf_pro_display_medium"
+                android:visibility="@{view_model.ratingVisibility}"
                 app:layout_constraintBottom_toBottomOf="@id/ratingBar"
                 app:layout_constraintStart_toEndOf="@+id/ratingBar"
                 app:layout_constraintTop_toTopOf="@id/ratingBar" />
@@ -180,6 +183,7 @@
                 android:src="@drawable/dot"
                 android:scaleType="fitCenter"
                 android:background="@android:color/transparent"
+                android:visibility="@{view_model.ratingVisibility}"
                 app:layout_constraintBottom_toBottomOf="@id/ratingText"
                 app:layout_constraintStart_toEndOf="@+id/ratingText"
                 app:layout_constraintTop_toTopOf="@id/ratingText" />
@@ -191,6 +195,7 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp"
                 android:fontFamily="@font/sf_pro_display_medium"
+                android:visibility="@{view_model.ratingVisibility}"
                 app:layout_constraintBottom_toBottomOf="@id/point"
                 app:layout_constraintStart_toEndOf="@+id/point"
                 app:layout_constraintTop_toTopOf="@id/point" />
@@ -205,7 +210,7 @@
                 android:textSize="24sp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 app:layout_constraintTop_toBottomOf="@id/ratingBar"
-                app:layout_constraintStart_toStartOf="@id/ratingBar"/>
+                app:layout_constraintStart_toStartOf="@id/product_cover_pager"/>
 
             <com.paranid5.emonlineshop.presentation.ui.ObliqueStrikeTextView
                 android:id="@+id/original_price_text"
@@ -286,6 +291,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginVertical="8dp"
                     android:src="@drawable/arrow_right"
+                    android:contentDescription="@string/brands"
                     android:scaleType="fitCenter"/>
             </com.google.android.material.card.MaterialCardView>
 
@@ -368,8 +374,9 @@
                 android:text="@{view_model.ingredients}"
                 android:textSize="12sp"
                 android:textColor="@color/dark_grey"
-                android:maxLines="@{view_model.ingredientsLines}"
                 android:ellipsize="end"
+                android:animateLayoutChanges="true"
+                app:animateLines="@{view_model.ingredientsLines}"
                 app:layout_constraintEnd_toEndOf="@id/copy_button"
                 app:layout_constraintStart_toStartOf="@id/ingredients_label"
                 app:layout_constraintTop_toBottomOf="@id/ingredients_label" />

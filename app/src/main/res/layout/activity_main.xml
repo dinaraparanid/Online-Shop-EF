@@ -39,6 +39,8 @@
             app:menu="@menu/main_menu"
             app:itemTextColor="@color/color_bottom_nav"
             app:itemIconTint="@color/color_bottom_nav"
+            app:itemRippleColor="@color/light_pink"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,7 @@
 package com.paranid5.emonlineshop.presentation.main.fragments.products
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.databinding.DataBindingUtil
@@ -85,6 +86,12 @@ class ProductsAdapter(
             }
     }
 }
+
+val IProduct.ratingVisibility: Int
+    get() = when (feedback.count) {
+        0L -> View.GONE
+        else -> View.VISIBLE
+    }
 
 private fun DiffCallback() =
     object : DiffUtil.ItemCallback<ProductWithLike>() {

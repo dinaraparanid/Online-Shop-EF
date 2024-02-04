@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-data class Feedback(val count: Long, val rating: Double) : Parcelable
+data class Feedback(val count: Long = 0, val rating: Double = 0.0) : Parcelable

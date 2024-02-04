@@ -9,6 +9,8 @@
             type="com.paranid5.emonlineshop.domain.product.IProduct" />
 
         <import type="com.paranid5.emonlineshop.domain.product.IProductKt"/>
+
+        <import type="com.paranid5.emonlineshop.presentation.main.fragments.products.ProductAdapterKt"/>
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -145,6 +147,7 @@
                 android:contentDescription="@string/rating"
                 android:scaleType="fitCenter"
                 android:src="@drawable/star"
+                android:visibility="@{ProductAdapterKt.getRatingVisibility(product)}"
                 app:tint="@color/orange"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/product_description_text"
@@ -159,6 +162,7 @@
                 android:text="@{IProductKt.getRatingText(product)}"
                 android:textColor="@color/orange"
                 android:textSize="9sp"
+                android:visibility="@{ProductAdapterKt.getRatingVisibility(product)}"
                 app:layout_constraintBottom_toBottomOf="@id/rating_image"
                 app:layout_constraintStart_toEndOf="@id/rating_image"
                 app:layout_constraintTop_toTopOf="@+id/rating_image" />
@@ -172,6 +176,7 @@
                 android:text="@{IProductKt.getFeedbackCountText(product)}"
                 android:textColor="@color/grey"
                 android:textSize="9sp"
+                android:visibility="@{ProductAdapterKt.getRatingVisibility(product)}"
                 app:layout_constraintBottom_toBottomOf="@id/rating_text"
                 app:layout_constraintStart_toEndOf="@id/rating_text"
                 app:layout_constraintTop_toTopOf="@+id/rating_image" />

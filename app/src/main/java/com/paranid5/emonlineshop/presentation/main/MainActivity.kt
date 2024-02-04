@@ -17,7 +17,6 @@ import com.paranid5.emonlineshop.domain.product.IProduct
 import com.paranid5.emonlineshop.presentation.main.fragments.bag.BagFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.catalog.CatalogFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.discounts.DiscountsFragment
-import com.paranid5.emonlineshop.presentation.main.fragments.favourites.FavouritesFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.home.HomeFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.profile.ProfileFragment
@@ -60,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         binding.bottomNavigationView.run {
+            selectedItemId = R.id.catalog_item
             setOnApplyWindowInsetsListener(null)
             setPadding(0)
         }
