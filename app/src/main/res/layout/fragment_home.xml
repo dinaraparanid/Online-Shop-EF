@@ -6,11 +6,15 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/app_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HOME"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:text="@string/home_item_title"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textIsSelectable="false"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

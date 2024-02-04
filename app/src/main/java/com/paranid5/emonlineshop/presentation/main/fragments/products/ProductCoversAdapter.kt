@@ -26,9 +26,8 @@ class ProductCoversAdapter(private val covers: List<Int>) :
             )
         )
 
-    override fun onBindViewHolder(holder: ProductCoversViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductCoversViewHolder, position: Int): Unit =
         holder bind covers[position]
-    }
 
     override fun getItemCount(): Int = covers.size
 }

@@ -72,6 +72,8 @@ dependencies {
 
     implementation(libs.powerspinner)
 
+    implementation(libs.simpleratingbar)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -12,6 +12,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_layout"
         android:layout_width="168dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/white"

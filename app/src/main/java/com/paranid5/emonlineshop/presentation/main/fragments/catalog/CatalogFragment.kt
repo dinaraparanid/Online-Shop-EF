@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentCatalogBinding
 import com.paranid5.emonlineshop.domain.product.ProductOrder
+import com.paranid5.emonlineshop.presentation.main.MainActivity
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsTagsAdapter
 import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
@@ -40,7 +41,10 @@ class CatalogFragment : Fragment() {
     }
 
     private val productsAdapter by lazy {
-        ProductsAdapter(viewModel).apply {
+        ProductsAdapter(viewModel) {
+            (requireActivity() as MainActivity)
+                .navigateToProductFragment(it)
+        }.apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
     }

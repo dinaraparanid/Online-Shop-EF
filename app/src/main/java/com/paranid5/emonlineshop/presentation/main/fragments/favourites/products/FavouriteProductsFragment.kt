@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentFavouriteProductsBinding
 import com.paranid5.emonlineshop.domain.product.ProductWithLike
+import com.paranid5.emonlineshop.presentation.main.MainActivity
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
 import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
 import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
@@ -28,7 +29,10 @@ class FavouriteProductsFragment : Fragment() {
     private val viewModel by viewModels<FavouriteProductsViewModel>()
 
     private val productsAdapter by lazy {
-        ProductsAdapter(viewModel).apply {
+        ProductsAdapter(viewModel) {
+            (requireActivity() as MainActivity)
+                .navigateToProductFragment(it)
+        }.apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }
     }

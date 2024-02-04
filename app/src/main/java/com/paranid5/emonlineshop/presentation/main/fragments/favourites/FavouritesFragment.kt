@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.FragmentFavouritesBinding
+import com.paranid5.emonlineshop.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,5 +46,9 @@ class FavouritesFragment : Fragment() {
                 else -> throw IllegalStateException("Unknown favourite fragment position")
             }
         }.attach()
+
+        binding.backButton.setOnClickListener {
+            (requireActivity() as MainActivity).navigateToProfileFragment()
+        }
     }
 }

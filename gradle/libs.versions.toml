@@ -18,6 +18,7 @@ datastorePreferences = "1.1.0-beta01"
 kotlinxSerializationJson = "1.6.2"
 navigationFragmentKtx = "2.7.6"
 navigationUiKtx = "2.7.6"
+simpleratingbar = "1.5.1"
 sqlDelight = "2.0.1"
 viewpager2 = "1.0.0"
 ktorClientCore = "2.3.8"
@@ -38,6 +39,7 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
 powerspinner = { module = "com.github.skydoves:powerspinner", version.ref = "powerspinner" }
+simpleratingbar = { module = "com.github.ome450901:SimpleRatingBar", version.ref = "simpleratingbar" }
 vicmikhailau-maskededittext = { module = "io.github.vicmikhailau:MaskedEditText", version.ref = "maskededittext" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }

@@ -11,13 +11,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.paranid5.emonlineship.data.favourites.FavouritesPublisher
 import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.databinding.ItemProductBinding
+import com.paranid5.emonlineshop.domain.product.IProduct
 import com.paranid5.emonlineshop.domain.product.ProductWithLike
 import com.paranid5.emonlineshop.presentation.ui.getDrawableCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProductsAdapter(private val favouritesPublisher: FavouritesPublisher) :
+class ProductsAdapter(
+    private val favouritesPublisher: FavouritesPublisher,
+    private val onItemClicked: (IProduct) -> Unit
+) :
     RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>(),
     CoroutineScope by CoroutineScope(Dispatchers.Main) {
     private val differ by lazy {
@@ -53,8 +57,12 @@ class ProductsAdapter(private val favouritesPublisher: FavouritesPublisher) :
             binding.productCoverPager.adapter = ProductCoversAdapter(prodLike.product.coversRes)
             TabLayoutMediator(binding.productTab, binding.productCoverPager) { _, _ -> }.attach()
 
-            binding.productLike.run {
-                setOnClickListener { onLikeClicked(prodLike) }
+            binding.productLike.setOnClickListener {
+                onLikeClicked(prodLike)
+            }
+
+            binding.itemLayout.setOnClickListener {
+                onItemClicked(prodLike.product)
             }
 
             binding.executePendingBindings()

@@ -35,6 +35,20 @@
     <string name="cancel_tag">Отменить фильтр по тегу</string>
     <string name="products">Товары</string>
     <string name="brands">Бренды</string>
+    <string name="share">Поделиться</string>
+    <string name="description">Описание</string>
+    <string name="show">Подробнее</string>
+    <string name="hide">Скрыть</string>
+    <string name="info">Характеристики</string>
+    <string name="ingredients">Состав</string>
+    <string name="copy">Копировать</string>
+    <string name="reference">Справка</string>
+    <string name="available_rus_1">Доступно для заказа %1$d штука</string>
+    <string name="available_rus_2_4">Доступно для заказа %1$d штуки</string>
+    <string name="available_rus_5_0">Доступно для заказа %1$d штук</string>
+    <string name="feedback_rus_1">%1$d отзыв</string>
+    <string name="feedback_rus_2_4">%1$d отзыва</string>
+    <string name="feedback_rus_5_0">%1$d отзывов</string>
     <array name="sort_by">
         <item>По популярности</item>
         <item>По уменьшению цены</item>

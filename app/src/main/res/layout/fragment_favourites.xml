@@ -5,18 +5,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back"
+            android:scaleType="fitCenter"
+            android:src="@drawable/arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/app_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:text="@string/favourites"
+            android:textColor="@color/black"
+            android:textIsSelectable="false"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/backButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="@id/backButton" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="16dp"
             android:background="@color/light_gray"
             app:cardBackgroundColor="@color/light_gray"
             app:cardCornerRadius="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_label"
             app:strokeWidth="0dp">
 
             <com.google.android.material.tabs.TabLayout
@@ -26,10 +54,10 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/light_gray"
                 app:tabBackground="@drawable/tab_pager_favourites"
-                app:tabPadding="2dp"
                 app:tabGravity="fill"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
+                app:tabPadding="2dp"
                 app:tabRippleColor="@color/white"
                 app:tabSelectedTextColor="@color/black"
                 app:tabTextAppearance="@style/FragmentTabTextStyle"

@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="view_model"
+            type="com.paranid5.emonlineshop.presentation.main.fragments.products.ProductViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="14dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/back"
+                android:scaleType="fitCenter"
+                android:src="@drawable/arrow_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="19dp"
+                android:paddingTop="4dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="3dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/share"
+                android:scaleType="fitCenter"
+                android:src="@drawable/share"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/like_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="24dp"
+                android:translationZ="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/heart"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="@id/shareButton"
+                app:layout_constraintStart_toStartOf="@+id/shareButton"
+                app:layout_constraintTop_toBottomOf="@+id/shareButton" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/product_cover_pager"
+                android:layout_width="0dp"
+                android:layout_height="368dp"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="14dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shareButton" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/product_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="@+id/product_cover_pager"
+                app:layout_constraintStart_toStartOf="@+id/product_cover_pager"
+                app:layout_constraintTop_toBottomOf="@+id/product_cover_pager"
+                app:tabBackground="@drawable/tab_pager_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabPaddingEnd="5dp"
+                app:tabPaddingStart="5dp" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/reference"
+                android:contentDescription="@string/reference"
+                app:layout_constraintBottom_toBottomOf="@+id/product_cover_pager"
+                app:layout_constraintStart_toStartOf="@+id/product_cover_pager" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{view_model.brand}"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintStart_toStartOf="@+id/product_cover_pager"
+                app:layout_constraintTop_toTopOf="@+id/product_tab" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{view_model.subtitle}"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintEnd_toEndOf="@+id/product_cover_pager"
+                app:layout_constraintStart_toStartOf="@+id/product_cover_pager"
+                app:layout_constraintTop_toBottomOf="@id/textView3" />
+
+            <TextView
+                android:id="@+id/available_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintEnd_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@id/available_text" />
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:numStars="5"
+                app:rating="@{view_model.rating}"
+                app:srb_starWidth="20dp"
+                app:srb_starHeight="20dp"
+                app:srb_clickable="false"
+                app:srb_drawableEmpty="@drawable/empty_star"
+                app:srb_drawableFilled="@drawable/filled_star"
+                app:layout_constraintStart_toStartOf="@+id/view2"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <TextView
+                android:id="@+id/ratingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{view_model.ratingText}"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintBottom_toBottomOf="@id/ratingBar"
+                app:layout_constraintStart_toEndOf="@+id/ratingBar"
+                app:layout_constraintTop_toTopOf="@id/ratingBar" />
+
+            <ImageView
+                android:id="@+id/point"
+                android:layout_width="14dp"
+                android:layout_height="0dp"
+                android:paddingHorizontal="6dp"
+                android:src="@drawable/dot"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="@id/ratingText"
+                app:layout_constraintStart_toEndOf="@+id/ratingText"
+                app:layout_constraintTop_toTopOf="@id/ratingText" />
+
+            <TextView
+                android:id="@+id/feedbackText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintBottom_toBottomOf="@id/point"
+                app:layout_constraintStart_toEndOf="@+id/point"
+                app:layout_constraintTop_toTopOf="@id/point" />
+
+            <TextView
+                android:id="@+id/final_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{view_model.finalPriceText}"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar"
+                app:layout_constraintStart_toStartOf="@id/ratingBar"/>
+
+            <com.paranid5.emonlineshop.presentation.ui.ObliqueStrikeTextView
+                android:id="@+id/original_price_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:paddingHorizontal="2dp"
+                android:text="@{view_model.originalPriceText}"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintBottom_toBottomOf="@id/final_price_text"
+                app:layout_constraintStart_toEndOf="@id/final_price_text"
+                app:layout_constraintTop_toTopOf="@id/final_price_text" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/discount_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                app:cardBackgroundColor="@color/pink"
+                app:cardCornerRadius="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/original_price_text"
+                app:layout_constraintStart_toEndOf="@+id/original_price_text"
+                app:layout_constraintTop_toTopOf="@id/original_price_text"
+                app:strokeColor="@android:color/transparent">
+
+                <TextView
+                    android:id="@+id/discount_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_pro_display_medium"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="3dp"
+                    android:text="@{view_model.discountText}"
+                    android:textColor="@color/white"
+                    android:textSize="9sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/description_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/description"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintTop_toBottomOf="@id/final_price_text"
+                app:layout_constraintStart_toStartOf="@id/final_price_text"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/brand_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="@{view_model.descriptionVisibility}"
+                app:cardBackgroundColor="@color/light_gray"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="@id/product_cover_pager"
+                app:layout_constraintStart_toStartOf="@id/product_cover_pager"
+                app:layout_constraintTop_toBottomOf="@id/description_label">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="15dp"
+                    android:paddingHorizontal="9dp"
+                    android:text="@{view_model.brand}"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/sf_pro_display_medium"/>
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginVertical="8dp"
+                    android:src="@drawable/arrow_right"
+                    android:scaleType="fitCenter"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/description_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{view_model.description}"
+                android:textSize="12sp"
+                android:textColor="@color/dark_grey"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:visibility="@{view_model.descriptionVisibility}"
+                app:layout_constraintEnd_toEndOf="@id/brand_card"
+                app:layout_constraintStart_toStartOf="@id/brand_card"
+                app:layout_constraintTop_toBottomOf="@id/brand_card" />
+
+            <TextView
+                android:id="@+id/show_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{view_model.descriptionShownText}"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintStart_toStartOf="@id/description_label"
+                app:layout_constraintTop_toBottomOf="@id/description_text" />
+
+            <TextView
+                android:id="@+id/info_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:text="@string/info"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintTop_toBottomOf="@id/show_description"
+                app:layout_constraintStart_toStartOf="@id/show_description"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/info_list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@id/product_cover_pager"
+                app:layout_constraintStart_toStartOf="@id/product_cover_pager"
+                app:layout_constraintTop_toBottomOf="@id/info_label" />
+
+            <TextView
+                android:id="@+id/ingredients_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:text="@string/ingredients"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/sf_pro_display_medium"
+                app:layout_constraintTop_toBottomOf="@id/info_list"
+                app:layout_constraintStart_toStartOf="@id/info_list"/>
+
+            <ImageButton
+                android:id="@+id/copy_button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/copy"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/copy"
+                app:layout_constraintTop_toTopOf="@id/ingredients_label"
+                app:layout_constraintBottom_toBottomOf="@id/ingredients_label"
+                app:layout_constraintEnd_toEndOf="@id/info_list"/>
+
+            <TextView
+                android:id="@+id/ingredients_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{view_model.ingredients}"
+                android:textSize="12sp"
+                android:textColor="@color/dark_grey"
+                android:maxLines="@{view_model.ingredientsLines}"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="@id/copy_button"
+                app:layout_constraintStart_toStartOf="@id/ingredients_label"
+                app:layout_constraintTop_toBottomOf="@id/ingredients_label" />
+
+            <TextView
+                android:id="@+id/show_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{view_model.ingredientsShownText}"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/ingredients_label"
+                app:layout_constraintTop_toBottomOf="@id/ingredients_text" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/pink"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@android:color/transparent"
+                app:rippleColor="@color/light_pink"
+                app:layout_constraintEnd_toEndOf="@id/info_list"
+                app:layout_constraintStart_toStartOf="@id/show_ingredients"
+                app:layout_constraintTop_toBottomOf="@id/show_ingredients"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@{view_model.finalPriceText}"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/sf_pro_display_medium"/>
+
+                    <com.paranid5.emonlineshop.presentation.ui.ObliqueStrikeTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@{view_model.originalPriceText}"
+                        android:textSize="10sp"
+                        android:textColor="@color/light_pink"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        app:strike_color="@color/light_pink"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/add_to_bag"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/sf_pro_display_medium"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
