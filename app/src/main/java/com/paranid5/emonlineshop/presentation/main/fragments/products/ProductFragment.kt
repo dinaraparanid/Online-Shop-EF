@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -77,6 +78,11 @@ class ProductFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupIngredientsShownVisibility()
+    }
+
     private fun initViews() {
         setupCoversPager()
         setupInfoList()
@@ -99,7 +105,7 @@ class ProductFragment : Fragment() {
     }
 
     private fun setupCoversPager() {
-        binding.productCoverPager.adapter = ProductCoversAdapter(viewModel.coversRes)
+        binding.productCoverPager.adapter = ProductCoversAdapter(viewModel.coversUrls)
         TabLayoutMediator(binding.productTab, binding.productCoverPager) { _, _ -> }.attach()
     }
 
@@ -112,6 +118,20 @@ class ProductFragment : Fragment() {
             }
 
             addItemDecoration(LineDivider(requireContext()))
+        }
+
+    private fun setupIngredientsShownVisibility() =
+        binding.ingredientsText.run {
+            text = viewModel.ingredients
+
+            viewTreeObserver.addOnGlobalLayoutListener(
+                object : OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        viewModel.setIngredientsShownVisibility(binding.ingredientsText.lineCount)
+                        viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                }
+            )
         }
 
     private fun launchLikeMonitoring() =

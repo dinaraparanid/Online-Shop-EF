@@ -115,7 +115,8 @@
                             android:layout_marginTop="12dp"
                             android:layout_marginBottom="13dp"
                             android:src="@drawable/heart"
-                            android:contentDescription="@string/profile_item_title" />
+                            android:contentDescription="@string/profile_item_title"
+                            app:tint="@color/pink" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"

@@ -62,7 +62,7 @@ class LoginViewModel(
         }
 }
 
-private fun hintColor(input: String) = when {
+internal fun hintColor(input: String) = when {
     input.isEmpty() -> R.color.grey
     else -> android.R.color.transparent
 }

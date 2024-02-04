@@ -49,7 +49,7 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
                             same.firstOrNull()?.copy(
                                 tags = same.retrieveBy(IProduct::tags),
                                 info = same.retrieveBy(IProduct::info),
-                                coversRes = same.retrieveBy(IProduct::coversRes)
+                                coversUrls = same.retrieveBy(IProduct::coversUrls)
                             )
                         }
                 }
@@ -66,7 +66,7 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
             val feedbackId = queries.insertFeedbackIfNotExists(product.feedback)
             val infoIds = queries.insertInfo(product.info)
             val tagsIds = queries.insertTags(product.tags)
-            val coversIds = queries.insertCovers(product.coversRes)
+            val coversIds = queries.insertCovers(product.coversUrls)
             queries.insertFavourite(product, priceId, feedbackId)
 
             infoIds.forEach { queries.insertFavouriteInfo(product.id, it) }
@@ -89,7 +89,7 @@ class FavouritesDataSource @Inject constructor(driver: SqlDriver) :
 }
 
 internal fun FavouritesQueries.selectAndMapToFavourite() =
-    selectFavourites { id, title, subtitle, price, discount, priceWithDiscount, unit, count, rating, tag, available, description, infoTitle, infoValue, ingredients, coverRes ->
+    selectFavourites { id, title, subtitle, price, discount, priceWithDiscount, unit, count, rating, tag, available, description, infoTitle, infoValue, ingredients, coverUrl ->
         FavouriteProduct(
             id = id,
             title = title,
@@ -109,7 +109,7 @@ internal fun FavouritesQueries.selectAndMapToFavourite() =
             description = description,
             info = listOf(Info(infoTitle, infoValue)),
             ingredients = ingredients,
-            coversRes = listOf(coverRes.toInt())
+            coversUrls = listOf(coverUrl)
         )
     }
 
@@ -145,9 +145,9 @@ internal fun FavouritesQueries.insertInfo(info: List<Info>) =
         insertedInfoId().executeAsOne()
     }
 
-internal fun FavouritesQueries.insertCovers(coversRes: List<Int>) =
-    coversRes.map {
-        insertCoverIfNotExists(it.toLong())
+internal fun FavouritesQueries.insertCovers(coversUrls: List<String>) =
+    coversUrls.map {
+        insertCoverIfNotExists(it)
         insertedCoverId().executeAsOne()
     }
 

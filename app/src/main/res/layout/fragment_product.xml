@@ -34,10 +34,6 @@
                 android:layout_height="24dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="19dp"
-                android:paddingTop="4dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="5dp"
-                android:paddingBottom="3dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/share"
                 android:scaleType="fitCenter"
@@ -54,6 +50,7 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/heart"
                 android:scaleType="fitCenter"
+                app:tint="@color/pink"
                 app:layout_constraintEnd_toEndOf="@id/shareButton"
                 app:layout_constraintStart_toStartOf="@+id/shareButton"
                 app:layout_constraintTop_toBottomOf="@+id/shareButton" />
@@ -79,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/product_cover_pager"
                 app:layout_constraintStart_toStartOf="@+id/product_cover_pager"
                 app:layout_constraintTop_toBottomOf="@+id/product_cover_pager"
-                app:tabBackground="@drawable/tab_pager_selector"
+                app:tabBackground="@drawable/tab_pager_selector_big"
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp"
                 app:tabPaddingEnd="5dp"
@@ -91,7 +88,6 @@
                 android:layout_height="24dp"
                 android:layout_marginBottom="16dp"
                 android:background="@android:color/transparent"
-                android:padding="5dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/reference"
                 android:contentDescription="@string/reference"
@@ -144,13 +140,17 @@
                 app:layout_constraintStart_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@id/available_text" />
 
-            <com.willy.ratingbar.ScaleRatingBar
+            <com.willy.ratingbar.BaseRatingBar
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:numStars="5"
                 app:rating="@{view_model.rating}"
+                app:srb_stepSize="0.1"
+                app:srb_isIndicator="false"
+                app:srb_clearRatingEnabled="true"
+                app:srb_starPadding="0dp"
                 app:srb_starWidth="20dp"
                 app:srb_starHeight="20dp"
                 app:srb_clickable="false"
@@ -382,6 +382,7 @@
                 android:text="@{view_model.ingredientsShownText}"
                 android:textColor="@color/grey"
                 android:textSize="12sp"
+                android:visibility="@{view_model.ingredientsShownVisibility}"
                 app:layout_constraintStart_toStartOf="@id/ingredients_label"
                 app:layout_constraintTop_toBottomOf="@id/ingredients_text" />
 

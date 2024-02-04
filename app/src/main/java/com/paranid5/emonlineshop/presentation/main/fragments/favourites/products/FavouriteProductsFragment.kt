@@ -15,6 +15,7 @@ import com.paranid5.emonlineshop.databinding.FragmentFavouriteProductsBinding
 import com.paranid5.emonlineshop.domain.product.ProductWithLike
 import com.paranid5.emonlineshop.presentation.main.MainActivity
 import com.paranid5.emonlineshop.presentation.main.fragments.products.ProductsAdapter
+import com.paranid5.emonlineshop.presentation.main.fragments.profile.ProfileFragment
 import com.paranid5.emonlineshop.presentation.ui.PaddingItemDecorator
 import com.paranid5.emonlineshop.presentation.ui.launchOnStarted
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,7 @@ class FavouriteProductsFragment : Fragment() {
     private val productsAdapter by lazy {
         ProductsAdapter(viewModel) {
             (requireActivity() as MainActivity)
-                .navigateToProductFragment(it)
+                .navigateToProductFragment<ProfileFragment>(it)
         }.apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }

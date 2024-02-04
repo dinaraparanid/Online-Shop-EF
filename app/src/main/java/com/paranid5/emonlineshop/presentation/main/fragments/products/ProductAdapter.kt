@@ -54,7 +54,7 @@ class ProductsAdapter(
             binding.product = prodLike.product
             setLikeImage(prodLike.isLiked)
 
-            binding.productCoverPager.adapter = ProductCoversAdapter(prodLike.product.coversRes)
+            binding.productCoverPager.adapter = ProductCoversAdapter(prodLike.product.coversUrls)
             TabLayoutMediator(binding.productTab, binding.productCoverPager) { _, _ -> }.attach()
 
             binding.productLike.setOnClickListener {

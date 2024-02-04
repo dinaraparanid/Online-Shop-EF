@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Info (
 
 CREATE TABLE IF NOT EXISTS Cover (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    res INTEGER NOT NULL
+    url TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Favourite (
@@ -86,7 +86,7 @@ SELECT
     Info.title AS infoTitle,
     Info.value AS infoValue,
     Favourite.ingredients,
-    Cover.res AS coverRes
+    Cover.url AS coverUrl
 FROM
     Favourite,
     Price,
@@ -144,7 +144,7 @@ FROM Info
 LIMIT 1;
 
 insertCoverIfNotExists:
-INSERT INTO Cover (res)
+INSERT INTO Cover (url)
 VALUES (?);
 
 insertedCoverId:

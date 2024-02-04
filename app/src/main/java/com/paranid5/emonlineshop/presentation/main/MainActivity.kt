@@ -1,7 +1,6 @@
 package com.paranid5.emonlineshop.presentation.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -9,6 +8,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.paranid5.emonlineshop.R
@@ -28,12 +28,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
     private val viewModel by viewModels<MainViewModel>()
+
+    private var onBackPressedRunning = false
 
     private val onBackPressedCallback by lazy {
         object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() =
+            override fun handleOnBackPressed() {
                 navigateToPreviousFragment()
+            }
         }
     }
 
@@ -63,6 +67,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavigation() {
         binding.bottomNavigationView.setOnItemSelectedListener {
+            if (onBackPressedRunning) {
+                onBackPressedRunning = false
+                return@setOnItemSelectedListener true
+            }
+
             when (it.itemId) {
                 R.id.home_item -> navigateToHomeFragment()
                 R.id.catalog_item -> navigateToCatalogFragment()
@@ -77,8 +86,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToPreviousFragment() {
-        viewModel.removeFragment()
+        onBackPressedRunning = true
         navController.popBackStack()
+        binding.bottomNavigationView.selectedItemId = viewModel.removeFragmentAndGetCurId()
     }
 
     private fun navigateToFragment(
@@ -115,12 +125,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToFavouritesFragment(): Boolean {
-        viewModel.addFragment<FavouritesFragment>()
+        viewModel.addFragment<ProfileFragment>()
         return navigateToFragment(R.id.favouritesFragment)
     }
 
-    fun navigateToProductFragment(product: IProduct): Boolean {
-        viewModel.addFragment<ProductFragment>()
+    internal inline fun <reified F : Fragment> navigateToProductFragment(product: IProduct): Boolean {
+        viewModel.addFragment<F>()
 
         return navigateToFragment(
             fragmentId = R.id.productFragment,
@@ -128,15 +138,3 @@ class MainActivity : AppCompatActivity() {
         )
     }
 }
-
-internal fun backButtonVisibility(fragmentType: Int) =
-    when (fragmentType) {
-        R.string.favourites -> View.VISIBLE
-        else -> View.INVISIBLE
-    }
-
-internal fun backButtonEnabled(fragmentType: Int) =
-    when (fragmentType) {
-        R.string.favourites -> true
-        else -> false
-    }

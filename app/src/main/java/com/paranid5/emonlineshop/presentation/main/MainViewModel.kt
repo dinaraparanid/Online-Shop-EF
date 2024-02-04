@@ -6,15 +6,12 @@ import com.paranid5.emonlineshop.R
 import com.paranid5.emonlineshop.presentation.main.fragments.bag.BagFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.catalog.CatalogFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.discounts.DiscountsFragment
-import com.paranid5.emonlineshop.presentation.main.fragments.favourites.FavouritesFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.home.HomeFragment
 import com.paranid5.emonlineshop.presentation.main.fragments.profile.ProfileFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,35 +20,28 @@ class MainViewModel @Inject constructor() : ViewModel() {
         MutableStateFlow(listOf(HomeFragment::class.simpleName ?: ""))
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val currentFragmentNameFlow: Flow<String> by lazy {
-        fragmentBackStackState.mapLatest { it.last() }
-    }
-
     fun addFragment(name: String): Unit =
         fragmentBackStackState.update { it + name }
 
-    fun removeFragment(): Unit =
-        fragmentBackStackState.update {
-            when (it.size) {
-                1 -> it
-                else -> it.dropLast(1)
-            }
-        }
+    fun removeFragmentAndGetCurId(): Int =
+        fragmentMenuId(
+            fragmentName = fragmentBackStackState.updateAndGet {
+                when (it.size) {
+                    1 -> it
+                    else -> it.dropLast(1)
+                }
+            }.last()
+        )
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
-inline val MainViewModel.currentAppLabelResFlow: Flow<Int>
-    get() = currentFragmentNameFlow.mapLatest {
-        when (it) {
-            BagFragment::class.simpleName -> R.string.bag_item_title
-            CatalogFragment::class.simpleName -> R.string.catalog_item_title
-            DiscountsFragment::class.simpleName -> R.string.discounts_item_title
-            HomeFragment::class.simpleName -> R.string.home_item_title
-            ProfileFragment::class.simpleName -> R.string.profile_app_label
-            FavouritesFragment::class.simpleName -> R.string.favourites
-            else -> throw IllegalStateException("Unknown fragment")
-        }
+internal fun fragmentMenuId(fragmentName: String) =
+    when (fragmentName) {
+        HomeFragment::class.simpleName -> R.id.home_item
+        CatalogFragment::class.simpleName -> R.id.catalog_item
+        BagFragment::class.simpleName -> R.id.bag_item
+        DiscountsFragment::class.simpleName -> R.id.discounts_item
+        ProfileFragment::class.simpleName -> R.id.profile_item
+        else -> throw IllegalStateException("Unknown fragment")
     }
 
 inline fun <reified F : Fragment> MainViewModel.addFragment(): Unit =

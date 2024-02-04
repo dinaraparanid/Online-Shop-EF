@@ -2,19 +2,19 @@ package com.paranid5.emonlineshop.presentation.main.fragments.products
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.paranid5.emonlineshop.databinding.ItemProductCoverBinding
-import com.paranid5.emonlineshop.presentation.ui.getDrawableCompat
 
-class ProductCoversAdapter(private val covers: List<Int>) :
+class ProductCoversAdapter(private val covers: List<String>) :
     RecyclerView.Adapter<ProductCoversAdapter.ProductCoversViewHolder>() {
     class ProductCoversViewHolder(private val binding: ItemProductCoverBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        infix fun bind(@DrawableRes coverRes: Int): Unit =
-            binding.productCover.run {
-                setImageDrawable(context.getDrawableCompat(coverRes))
+        infix fun bind(coverUrl: String) {
+            binding.productCover.load(coverUrl) {
+                crossfade(300)
             }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductCoversViewHolder =

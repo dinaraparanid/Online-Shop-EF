@@ -43,7 +43,7 @@ class CatalogFragment : Fragment() {
     private val productsAdapter by lazy {
         ProductsAdapter(viewModel) {
             (requireActivity() as MainActivity)
-                .navigateToProductFragment(it)
+                .navigateToProductFragment<CatalogFragment>(it)
         }.apply {
             stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         }

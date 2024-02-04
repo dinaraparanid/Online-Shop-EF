@@ -3,7 +3,6 @@ package com.paranid5.emonlineshop.presentation.main.fragments.products
 import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.lifecycle.lifecycleScope
 import com.paranid5.emonlineship.data.favourites.FavouritesDataSource
 import com.paranid5.emonlineship.data.favourites.FavouritesPublisher
 import com.paranid5.emonlineship.data.favourites.FavouritesPublisherImpl
@@ -17,11 +16,9 @@ import com.paranid5.emonlineshop.domain.product.discountText
 import com.paranid5.emonlineshop.domain.product.originalPriceText
 import com.paranid5.emonlineshop.domain.product.priceWithDiscountText
 import com.paranid5.emonlineshop.domain.product.ratingText
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.launch
 
 class ProductViewModel(
     private val product: IProduct,
@@ -36,8 +33,8 @@ class ProductViewModel(
         }
     }
 
-    val coversRes: List<Int>
-        get() = product.coversRes
+    val coversUrls: List<String>
+        get() = product.coversUrls
 
     val brand: String
         get() = product.title
@@ -100,37 +97,56 @@ class ProductViewModel(
             else -> View.GONE
         }
 
-    private var areIngredientsShown = false
+    private var areIngredientsShown = View.VISIBLE
         set(value) {
             field = value
             notifyPropertyChanged(BR.ingredientsShownText)
             notifyPropertyChanged(BR.ingredientsLines)
+            notifyPropertyChanged(BR.ingredientsShownVisibility)
         }
 
     fun onIngredientsShownClicked() {
-        areIngredientsShown = !areIngredientsShown
+        areIngredientsShown = when (areIngredientsShown) {
+            View.VISIBLE -> View.INVISIBLE
+            View.INVISIBLE -> View.VISIBLE
+            else -> View.GONE
+        }
     }
 
     val ingredientsShownText: Int
         @Bindable
-        get() = when {
-            areIngredientsShown -> R.string.hide
+        get() = when (areIngredientsShown) {
+            View.VISIBLE -> R.string.hide
             else -> R.string.show
         }
 
     val ingredientsLines: Int
         @Bindable
-        get() = when {
-            areIngredientsShown -> Int.MAX_VALUE
+        get() = when (areIngredientsShown) {
+            View.VISIBLE -> Int.MAX_VALUE
             else -> 2
         }
 
-    fun likeImage(isLiked: Boolean) = when {
+    val ingredientsShownVisibility: Int
+        @Bindable
+        get() = when (areIngredientsShown) {
+            View.GONE -> View.GONE
+            else -> View.VISIBLE
+        }
+
+    fun setIngredientsShownVisibility(lines: Int) {
+        areIngredientsShown = when {
+            lines <= 2 -> View.GONE
+            else -> View.INVISIBLE
+        }
+    }
+
+    fun likeImage(isLiked: Boolean): Int = when {
         isLiked -> R.drawable.heart_liked
         else -> R.drawable.heart
     }
 
-    suspend fun onLikeClicked(isLiked: Boolean) =
+    suspend fun onLikeClicked(isLiked: Boolean): Unit =
         when {
             isLiked -> removeFavourite(product.id)
             else -> addFavourite(product)

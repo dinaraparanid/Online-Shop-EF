@@ -16,5 +16,5 @@ data class FavouriteProduct(
     override val description: String,
     override val info: List<Info>,
     override val ingredients: String,
-    override val coversRes: List<Int> = listOf()
+    override val coversUrls: List<String> = listOf()
 ) : IProduct

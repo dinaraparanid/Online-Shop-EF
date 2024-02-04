@@ -15,10 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
-
-    private val fragmentsAdapter by lazy {
-        FavouritesAdapter(this)
-    }
+    private lateinit var fragmentsAdapter: FavouritesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +34,15 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun initViews() {
+        setupFragmentPager()
+
+        binding.backButton.setOnClickListener {
+            (requireActivity() as MainActivity).navigateToProfileFragment()
+        }
+    }
+
+    private fun setupFragmentPager() {
+        fragmentsAdapter = FavouritesAdapter(this)
         binding.fragmentsPager.adapter = fragmentsAdapter
 
         TabLayoutMediator(binding.fragmentsTab, binding.fragmentsPager) { tab, position ->
@@ -46,9 +52,5 @@ class FavouritesFragment : Fragment() {
                 else -> throw IllegalStateException("Unknown favourite fragment position")
             }
         }.attach()
-
-        binding.backButton.setOnClickListener {
-            (requireActivity() as MainActivity).navigateToProfileFragment()
-        }
     }
 }
