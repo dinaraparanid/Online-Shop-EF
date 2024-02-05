@@ -8,7 +8,7 @@
 
 ## **About App**
 
-**Online Shop EM** is an Android application, created as an *internship testing app for Effective Mobile company*.
+**Online Shop EM** is an Android application, created as an *employment testing app for Effective Mobile company*.
 Applications serves as the client app for online shopping
 
 ### **Preview**
